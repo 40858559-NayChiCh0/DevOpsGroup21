@@ -1,3 +1,15 @@
+Product Owner - Han Thar Soe San
+
+Scrum Master - Nay Chi Cho
+
+Developer - Zin Yoon Htel
+
+Developer - Yu Ya Kyaw
+
+Developer - Htet Myint Mo
+
+Developer - Aung Phone Myat
+
 Team Code of Conduct
 This Code of Conduct explains the rules that all team members agree to follow during our DevOps project. 
 The purpose is to make sure that everyone contributes fairly and works responsibly.
