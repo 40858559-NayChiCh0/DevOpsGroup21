@@ -8,7 +8,7 @@ Developer - Yu Ya Kyaw
 
 Developer - Htet Myint Mo
 
-Developer - Aung Phone Myat
+Developer - Aung Phone Myat 
 
 Team Code of Conduct
 This Code of Conduct explains the rules that all team members agree to follow during our DevOps project. 
