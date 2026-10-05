@@ -18,8 +18,8 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
 
-      - name: Compile with Maven
-        run: mvn compile
+      - name: Package with Maven
+        run: mvn package -DskipTests
 
       - name: Build Docker Image
         uses: docker/build-push-action@v6
