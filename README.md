@@ -71,4 +71,5 @@ The contribution score will be supported by evidence such as GitHub commits, pul
    By working in this team, every member agrees to follow these rules. The rules may be changed if all team members agree.
    Weekly Meeting: Monday, 10:30 PM
    Regular Contribution Score: 16.6 marks
+9. 
 
