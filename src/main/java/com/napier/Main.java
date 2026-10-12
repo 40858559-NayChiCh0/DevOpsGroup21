@@ -14,10 +14,6 @@ public class Main {
             if (connection.isValid(2)) {
                 System.out.println(
                         "Database connection succeeded.");
-
-                // Generate and display the language speakers report
-                System.out.println("\nREPORT : Language Reports");
-                LanguageReport.getLanguageSpeakers(connection);
             } else {
                 System.out.println(
                         "Database connection is invalid.");
@@ -31,5 +27,7 @@ public class Main {
 
             e.printStackTrace();
         }
+
+        System.out.printf("Yu Ya Kyaw Feature -> Develop");
     }
 }
