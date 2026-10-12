@@ -29,5 +29,10 @@ public class Main {
         }
 
         System.out.printf("Yu Ya Kyaw Feature -> Develop");
+
+        System.out.println(
+                "\nReport 1: All the countries in the world organised by largest population to smallest.");
+
+        CountryReports.getAllCountries();
     }
 }
