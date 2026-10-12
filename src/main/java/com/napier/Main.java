@@ -1,17 +1,34 @@
 package com.napier;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    static void main() {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        IO.println(String.format("Hello and welcome to World Information Reporting Application!"));
+import java.sql.Connection;
+import java.sql.SQLException;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            IO.println("i = " + i);
+public class Main {
+
+    public static void main(String[] args) {
+
+        try (Connection con = DBConnection.getConnection()) {
+
+            System.out.println("Database connected successfully!");
+
+            CapitalCityReports reports = new CapitalCityReports(con);
+
+            System.out.println(
+                    "\nREPORT 1: All Capital Cities in the World");
+            reports.getAllCapitalCities();
+
+            System.out.println(
+                    "\nREPORT 2: Capital Cities in Asia");
+            reports.getCapitalCitiesByContinent("Asia");
+
+            System.out.println(
+                    "\nREPORT 3: Capital Cities in Southeast Asia");
+            reports.getCapitalCitiesByRegion("Southeast Asia");
+
+
+        } catch (SQLException e) {
+            System.err.println("Database error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
