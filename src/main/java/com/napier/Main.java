@@ -18,6 +18,7 @@ public class Main {
                 // Generate and display the language speakers report
                 System.out.println("\nREPORT : Language Reports");
                 LanguageReport.getLanguageSpeakers(connection);
+
             } else {
                 System.out.println(
                         "Database connection is invalid.");
