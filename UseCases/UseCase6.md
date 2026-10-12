@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 # Use Case: Generate Language Speakers and Top N City Reports
-=======
-# Use Case: Generate Language Speakers Report
->>>>>>> develop
 
 ## CHARACTERISTIC INFORMATION
 
@@ -33,11 +29,7 @@ The requested report cannot be generated because of a database connection failur
 Data Analyst
 
 ### Trigger
-<<<<<<< HEAD
 The Population Reporting System starts and automatically executes the Language Speakers Report method, or the Data Analyst requests one of the Top N city reports.
-=======
-The Population Reporting System starts and automatically executes the Language Speakers Report method.
->>>>>>> develop
 
 ---
 
