@@ -99,5 +99,4 @@ The system displays all available matching cities.
 10. Top N populated cities in a selected district.
 
 ## SCHEDULE
-
 **Due Date:** Release `v1.0.1`
