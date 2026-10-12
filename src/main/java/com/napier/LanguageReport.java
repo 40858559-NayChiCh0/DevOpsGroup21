@@ -30,11 +30,10 @@ public class LanguageReport {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-
+            System.out.println("------------------------------------------------------");
             // Display report headings
             System.out.printf("%-15s %-20s %-20s%n",
                     "Language", "Speakers", "World Population (%)");
-
             System.out.println("------------------------------------------------------");
 
             // Display language results
