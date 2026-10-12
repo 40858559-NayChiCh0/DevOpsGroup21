@@ -1,3 +1,4 @@
+
 package com.napier;
 
 /**
@@ -6,115 +7,138 @@ package com.napier;
 public class City {
 
     /**
-     * Unique ID of the city.
+     * The unique ID of the city.
      */
     private int id;
 
     /**
-     * Name of the city.
+     * The name of the city.
      */
     private String name;
 
     /**
-     * Country code of the city.
+     * The country code of the city.
      */
     private String countryCode;
 
     /**
-     * District where the city is located.
+     * The country where the city is located.
+     */
+    private Country country;
+
+    /**
+     * The district where the city is located.
      */
     private String district;
 
     /**
-     * Total population of the city.
+     * The total population of the city.
      */
     private int population;
 
     /**
-     * Gets city ID.
+     * Gets the city ID.
      *
-     * @return city ID.
+     * @return The city ID.
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Sets city ID.
+     * Sets the city ID.
      *
-     * @param id city ID.
+     * @param id The city ID.
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * Gets city name.
+     * Gets the city name.
      *
-     * @return city name.
+     * @return The city name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Sets city name.
+     * Sets the city name.
      *
-     * @param name city name.
+     * @param name The city name.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Gets country code.
+     * Gets the country code.
      *
-     * @return country code.
+     * @return The country code.
      */
     public String getCountryCode() {
         return countryCode;
     }
 
     /**
-     * Sets country code.
+     * Sets the country code.
      *
-     * @param countryCode country code.
+     * @param countryCode The country code.
      */
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
     /**
-     * Gets district.
+     * Gets the country object.
      *
-     * @return district.
+     * @return The country.
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * Sets the country object.
+     *
+     * @param country The country.
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    /**
+     * Gets the district.
+     *
+     * @return The district.
      */
     public String getDistrict() {
         return district;
     }
 
     /**
-     * Sets district.
+     * Sets the district.
      *
-     * @param district district.
+     * @param district The district.
      */
     public void setDistrict(String district) {
         this.district = district;
     }
 
     /**
-     * Gets city population.
+     * Gets the city population.
      *
-     * @return population.
+     * @return The population.
      */
     public int getPopulation() {
         return population;
     }
 
     /**
-     * Sets city population.
+     * Sets the city population.
      *
-     * @param population population.
+     * @param population The population.
      */
     public void setPopulation(int population) {
         this.population = population;
