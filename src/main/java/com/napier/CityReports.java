@@ -1,0 +1,108 @@
+package com.napier;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class CityReports {
+    /**
+     * Gets all cities in the world ordered by population.
+     *
+     * @param connection Database connection.
+     * @return List of cities.
+     */
+    public ArrayList<City> getAllCities(Connection connection) {
+
+        ArrayList<City> cities = new ArrayList<>();
+
+        String sql = """
+                SELECT city.ID,
+                       city.Name,
+                       city.CountryCode,
+                       country.Name AS CountryName,
+                       city.District,
+                       city.Population
+                FROM city
+                JOIN country
+                    ON city.CountryCode = country.Code
+                ORDER BY city.Population DESC, city.ID ASC
+                """;
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+
+                City city = new City();
+
+                city.setId(resultSet.getInt("ID"));
+                city.setName(resultSet.getString("Name"));
+                city.setCountryCode(
+                        resultSet.getString("CountryCode"));
+                city.setDistrict(
+                        resultSet.getString("District"));
+                city.setPopulation(
+                        resultSet.getInt("Population"));
+
+                // Create a Country object
+                Country country = new Country();
+
+                country.setCode(
+                        resultSet.getString("CountryCode"));
+                country.setName(
+                        resultSet.getString("CountryName"));
+
+                // Associate the country with the city
+                city.setCountry(country);
+
+                cities.add(city);
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to retrieve city report.", e);
+        }
+
+        return cities;
+    }
+
+
+    /**
+     * Prints all cities in a formatted table.
+     *
+     * @param cities List of cities.
+     */
+    public void printCityReport(ArrayList<City> cities) {
+
+        if (cities == null || cities.isEmpty()) {
+            System.out.println("No cities found.");
+            return;
+        }
+
+        System.out.println(
+                "\n========== ALL CITIES IN THE WORLD ==========");
+
+        System.out.printf(
+                "%-25s %-25s %-25s %15s%n",
+                "Name", "Country", "District", "Population");
+
+        System.out.println("-".repeat(95));
+
+        for (City city : cities) {
+
+            System.out.printf(
+                    "%-25.25s %-25.25s %-25.25s %,15d%n",
+                    city.getName(),
+                    city.getCountry().getName(),
+                    city.getDistrict(),
+                    city.getPopulation());
+        }
+
+        System.out.println("-".repeat(95));
+        System.out.println("Total cities: " + cities.size());
+    }
+
+}
