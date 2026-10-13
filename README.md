@@ -104,3 +104,16 @@ The rules may be changed if all team members agree.
 **Regular Contribution Score:** 16.6 marks
 
 ---
+
+## Individual Team Members' Contributions
+
+| Matriculation Number | Code Review 1 | Code Review 2 |
+|----------------------|--------------:|--------------:|
+| 40858565             |               |             - |
+| 40858559             |               |             - |
+| 40858601             |               |             - |
+| 40858562             |               |             - |
+| 40858602             |               |             - |
+| 40858603             |               |             - |
+| **Total**            |       **100** |             - |
+
