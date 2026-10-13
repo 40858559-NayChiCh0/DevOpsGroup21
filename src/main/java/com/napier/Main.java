@@ -22,6 +22,10 @@ public class Main {
                 System.out.println(
                         "\nREPORT 2: Capital Cities in Asia");
                 reports.getCapitalCitiesByContinent("Asia");
+
+                System.out.println(
+                        "\nREPORT 3: Capital Cities in Southeast Asia");
+                reports.getCapitalCitiesByRegion("Southeast Asia");
             } else {
                 System.out.println(
                         "Database connection is invalid.");
