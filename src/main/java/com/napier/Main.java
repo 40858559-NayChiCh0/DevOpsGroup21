@@ -14,20 +14,6 @@ public class Main {
             if (connection.isValid(2)) {
                 System.out.println(
                         "Database connection succeeded.");
-
-                System.out.println("\n--------------------------------------------------------------------------------------");
-                System.out.println(
-                        "Report 1: All the countries in the world organised by largest population to smallest.");
-                System.out.println("--------------------------------------------------------------------------------------");
-
-                CountryReports.getAllCountries();
-                System.out.println("----------------------------------------------------------------------------------------------------------------");
-
-                System.out.println(
-                        "Report 2: All the countries in a continent organised by largest population to smallest. (Continent of the Asia )");
-                System.out.println("----------------------------------------------------------------------------------------------------------------");
-                CountryReports.getCountriesByContinent("Asia");
-
             } else {
                 System.out.println(
                         "Database connection is invalid.");
@@ -42,6 +28,6 @@ public class Main {
             e.printStackTrace();
         }
 
-
+        System.out.printf("Yu Ya Kyaw Feature -> Develop");
     }
 }
