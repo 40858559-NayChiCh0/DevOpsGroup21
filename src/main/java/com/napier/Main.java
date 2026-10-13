@@ -28,10 +28,10 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.printf("Yu Ya Kyaw Feature -> Develop");
-
+        System.out.println("\n--------------------------------------------------------------------------------------");
         System.out.println(
-                "\nReport 1: All the countries in the world organised by largest population to smallest.");
+                "Report 1: All the countries in the world organised by largest population to smallest.");
+        System.out.println("--------------------------------------------------------------------------------------");
 
         CountryReports.getAllCountries();
         System.out.println("----------------------------------------------------------------------------------------------------------------");
