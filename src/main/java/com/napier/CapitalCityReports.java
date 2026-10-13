@@ -26,6 +26,21 @@ public class CapitalCityReports {
 
         printReport(sql,null);
     }
+    // REPORT 2: All capital cities in a continent
+    public void getCapitalCitiesByContinent(String continent)
+            throws SQLException {
+
+        String sql =
+                "SELECT ci.Name AS Capital, " +
+                        "co.Name AS Country, " +
+                        "ci.Population " +
+                        "FROM country co " +
+                        "JOIN city ci ON co.Capital = ci.ID " +
+                        "WHERE co.Continent = ? " +
+                        "ORDER BY ci.Population DESC";
+
+        printReport(sql, continent);
+    }
 
 
     // Shared method to run SQL and display results
