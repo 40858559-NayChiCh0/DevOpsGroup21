@@ -13,13 +13,6 @@ public class Main {
             if (connection.isValid(2)) {
 
                 System.out.println("Database connection succeeded.");
-
-                // Issue #50: Population Breakdown by Continent
-                PopulationReport report =
-                        new PopulationReport(connection);
-
-                report.generateContinentReport();
-
             } else {
                 System.out.println("Database connection is invalid.");
             }
