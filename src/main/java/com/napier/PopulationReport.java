@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Generates population breakdown reports for
- * continents, regions, and countries.
+ * Generates population breakdown reports for continents.
  */
 public class PopulationReport {
 
@@ -21,25 +20,16 @@ public class PopulationReport {
     }
 
     /**
-     * Retrieves population data grouped by a given column.
+     * Retrieves population data for each continent.
      *
-     * @param groupColumn Continent, Region, or Name
      * @return List of population breakdowns
      */
-    private List<PopulationBreakdown> getPopulationReport(
-            String groupColumn) throws SQLException {
-
-        // Only predefined column names are permitted.
-        if (!groupColumn.equals("Continent")
-                && !groupColumn.equals("Region")
-                && !groupColumn.equals("Name")) {
-            throw new IllegalArgumentException(
-                    "Invalid grouping column");
-        }
+    public List<PopulationBreakdown> getContinentReport()
+            throws SQLException {
 
         String sql = """
             SELECT
-                c.%s AS ReportName,
+                c.Continent AS ReportName,
                 SUM(c.Population) AS TotalPopulation,
                 SUM(COALESCE(cp.UrbanPopulation, 0))
                     AS UrbanPopulation
@@ -51,11 +41,9 @@ public class PopulationReport {
                 FROM city
                 GROUP BY CountryCode
             ) cp ON c.Code = cp.CountryCode
-            GROUP BY c.%s
-            ORDER BY c.%s
-            """.formatted(
-                groupColumn, groupColumn, groupColumn
-        );
+            GROUP BY c.Continent
+            ORDER BY c.Continent
+            """;
 
         List<PopulationBreakdown> reports =
                 new ArrayList<>();
@@ -88,33 +76,6 @@ public class PopulationReport {
     }
 
     /**
-     * Report 1: Population of each continent.
-     */
-    public List<PopulationBreakdown> getContinentReport()
-            throws SQLException {
-
-        return getPopulationReport("Continent");
-    }
-
-    /**
-     * Report 2: Population of each region.
-     */
-    public List<PopulationBreakdown> getRegionReport()
-            throws SQLException {
-
-        return getPopulationReport("Region");
-    }
-
-    /**
-     * Report 3: Population of each country.
-     */
-    public List<PopulationBreakdown> getCountryReport()
-            throws SQLException {
-
-        return getPopulationReport("Name");
-    }
-
-    /**
      * Displays population data in a formatted table.
      */
     public void printReport(
@@ -125,8 +86,8 @@ public class PopulationReport {
         System.out.println("=".repeat(115));
 
         System.out.printf(
-                "%-35s %15s %15s %10s %15s %10s%n",
-                "Name",
+                "%-35s %18s %15s %10s %15s %10s%n",
+                "Continent",
                 "Total Population",
                 "Urban",
                 "Urban %",
@@ -139,7 +100,7 @@ public class PopulationReport {
         for (PopulationBreakdown report : reports) {
 
             System.out.printf(
-                    "%-35s %,15d %,15d %9.2f%% %,15d %9.2f%%%n",
+                    "%-35s %,18d %,15d %9.2f%% %,15d %9.2f%%%n",
                     report.getName(),
                     report.getTotalPopulation(),
                     report.getUrbanPopulation(),
@@ -153,23 +114,13 @@ public class PopulationReport {
     }
 
     /**
-     * Runs all three population breakdown reports.
+     * Generates the continent population breakdown report.
      */
-    public void generateAllReports() throws SQLException {
+    public void generateContinentReport() throws SQLException {
 
         printReport(
                 "Population Breakdown by Continent",
                 getContinentReport()
-        );
-
-        printReport(
-                "Population Breakdown by Region",
-                getRegionReport()
-        );
-
-        printReport(
-                "Population Breakdown by Country",
-                getCountryReport()
         );
     }
 }
