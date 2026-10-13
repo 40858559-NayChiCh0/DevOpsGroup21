@@ -107,6 +107,7 @@ public class CityReports {
     }
 
     /**
+     * Issue 35: All cities in a selected continent
      * Retrieves all cities in a selected continent,
      * ordered by population from largest to smallest.
      *
@@ -165,13 +166,11 @@ public class CityReports {
                     cities.add(city);
                 }
             }
-
         } catch (SQLException e) {
             throw new IllegalStateException(
                     "Failed to retrieve cities for continent: "
                             + continent, e);
         }
-
         return cities;
     }
 
