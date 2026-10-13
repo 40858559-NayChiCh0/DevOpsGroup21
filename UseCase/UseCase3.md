@@ -32,7 +32,7 @@ Primary task
 * For continent and region reports, the Data Analyst can provide the required continent or region.
 * For Top N reports, the Data Analyst can provide a valid positive integer for N.
 
-### Success Condition
+### Success End Condition
 
 The system displays the requested capital city report with the columns Name, Country, Population, ordered by population from largest to smallest.
 
@@ -45,7 +45,7 @@ The system displays the requested capital city report with the columns Name, Cou
 
 For filtered reports, only matching capital cities are displayed. Top N reports display no more than the requested number of capital cities.
 
-### Failed Condition
+### Failed End Condition
 
 The report cannot be generated because of database connection errors, SQL execution errors, invalid input or unavailable matching capital city records. An appropriate error or information message is displayed where handled by the application.
 
