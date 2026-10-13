@@ -24,6 +24,7 @@ public class Main {
                 System.out.println("Database connection is invalid.");
             }
 
+
         } catch (SQLException e) {
 
             System.err.println("Database connection failed: "
