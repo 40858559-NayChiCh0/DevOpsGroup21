@@ -19,6 +19,9 @@ public class Main {
                         "\nREPORT 1: All Capital Cities in the World");
                 reports.getAllCapitalCities();
 
+                System.out.println(
+                        "\nREPORT 2: Capital Cities in Asia");
+                reports.getCapitalCitiesByContinent("Asia");
             } else {
                 System.out.println(
                         "Database connection is invalid.");
