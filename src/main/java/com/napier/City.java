@@ -101,7 +101,6 @@ public class City {
     public void setDistrict(String district) {
         this.district = district;
     }
-
     /**
      * Gets the city population.
      *
@@ -110,7 +109,6 @@ public class City {
     public int getPopulation() {
         return population;
     }
-
     /**
      * Sets the city population.
      *
