@@ -21,6 +21,8 @@ public class Main {
 
                 // Report 2: Population of Asia
                 LookUp_Population.getContinentPopulation("North America", connection);
+                // Report 3: Population of Southeast Asia
+                LookUp_Population.getRegionPopulation("Southeast Asia", connection);
 
 
             } else {

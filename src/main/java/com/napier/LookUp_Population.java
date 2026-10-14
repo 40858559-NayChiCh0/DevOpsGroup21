@@ -59,7 +59,7 @@ public class LookUp_Population {
 
             try (ResultSet rs = stmt.executeQuery()) {
 
-                System.out.println("\nCONTINENT POPULATION Queries");
+                System.out.println("\nCONTINENT POPULATION QUERIES");
                 System.out.println("-------------------------------------------");
                 System.out.printf("%-20s %20s%n", "Continent", "Population");
                 System.out.println("-------------------------------------------");
@@ -78,6 +78,52 @@ public class LookUp_Population {
 
         } catch (SQLException e) {
             System.err.println("Error generating continent population queries: " + e.getMessage());
+        }
+    }
+    /**
+     * Retrieves the total population of a selected region.
+     *
+     * @param region Name of the selected region
+     * @param connection Active database connection
+     */
+    public static void getRegionPopulation(String region, Connection connection) {
+
+        String sql = """
+            SELECT Region,
+                   SUM(Population) AS TotalPopulation
+            FROM country
+            WHERE Region = ?
+            GROUP BY Region
+            """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, region);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                System.out.println("\nREGION POPULATION");
+                System.out.println("-------------------------------------------");
+                System.out.printf("%-20s %20s%n", "Region", "Population");
+                System.out.println("-------------------------------------------");
+
+                if (rs.next()) {
+                    String regionName = rs.getString("Region");
+                    long totalPopulation = rs.getLong("TotalPopulation");
+
+                    System.out.printf("%-20s %,20d%n",
+                            regionName, totalPopulation);
+                } else {
+                    System.out.println(
+                            "No population data found for region: " + region);
+                }
+
+                System.out.println("-------------------------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.err.println(
+                    "Error generating region population: " + e.getMessage());
         }
     }
 }
