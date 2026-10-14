@@ -1,4 +1,4 @@
-# Use Case: Generate LookUp Population Reports Information
+# Use Case: Generate Capital City Reports Information
 
 ## CHARACTERISTIC INFORMATION
 
@@ -30,11 +30,11 @@ Primary task
 * The database contains the required population information.
 * The Data Analyst can select a lookup type and provide the required geographical name where applicable.
 
-### Success End Condition
+### Success Condition
 
 The system retrieves and displays the population of the selected geographical area.
 
-### Failed End Condition
+### Failed Condition
 
 The population cannot be retrieved because of a database connection failure, SQL error, invalid input or unavailable matching records.
 
