@@ -109,11 +109,34 @@ The rules may be changed if all team members agree.
 
 | Matriculation Number | Code Review 1 | Code Review 2 |
 |----------------------|--------------:|--------------:|
-| 40858565             |               |             - |
-| 40858559             |               |             - |
-| 40858601             |               |             - |
-| 40858562             |               |             - |
-| 40858602             |               |             - |
-| 40858603             |               |             - |
+| 40858565             |          16.6 |             - |
+| 40858559             |          16.7 |             - |
+| 40858601             |          16.7 |             - |
+| 40858562             |          16.6 |             - |
+| 40858602             |          16.6 |             - |
+| 40858603             |          16.6 |             - |
 | **Total**            |       **100** |             - |
+
+
+# Population Reporting System
+## Requirements
+
+**32 requirements of 14 have been implemented, which is 100%.**
+
+| ID | Name                                                                               | Met |                          Screenshot                          |
+|:---:|:-----------------------------------------------------------------------------------|:---:|:------------------------------------------------------------:|
+| 1 | All the countries in the world organised by largest population to smallest.        | Yes |          ![Country Report](img/country_report1.jpg)          |
+| 2 | All the countries in a continent organised by largest population to smallest.      | Yes |       ![Country by Continent](img/country_report2.jpg)       |
+| 3 | All the countries in a region organised by largest population to smallest.         | Yes |        ![Country by Region](img/country_report3.jpg)         |
+| 4 | All the cities in the world organised by largest population to smallest.           | Yes |            ![City by World](img/city_report1.jpg)            |
+| 5 | All the cities in a continent organised by largest population to smallest.         | Yes |          ![City by continent](img/city_report2.jpg)          |
+| 6 | All the cities in a region organised by largest population to smallest.            | Yes |           ![City by region](img/city_report3.jpg)            |
+| 7 | All the capital cities in the world organised by largest population to smallest.   | Yes |     ![CapitalCity Report](img/capital_city_report1.jpg)      |
+| 8 | All the capital cities in a continent organised by largest population to smallest. | Yes |     ![CapitalCity Report](img/capital_city_report2.jpg)      |
+| 9 | All the capital cities in a region organised by largest to smallest.               | Yes |     ![CapitalCity Report](img/capital_city_report2.jpg)      |
+| 10 | Population living in cities and not living in cities in each continent.            | Yes | ![PopulationBreakdown](img/population_breakdown_report1.jpg) |
+| 11 | Population of the world.                                                           | Yes |    ![Populationworld](img/lookup_population_report1.jpg)     |
+| 12 | Population of a continent.                                                         | Yes |  ![Populationcontinent](img/lookup_population_report2.jpg)   |
+| 13 | Population of a region.                                                            | Yes |    ![PopulationRegion](img/lookup_population_report2.jpg)    |
+| 14 | Language speakers report for Chinese, English, Hindi, Spanish and Arabic.          | Yes |         ![LanguageReport](img/language_report1.jpg)          |
 
