@@ -20,6 +20,16 @@ public class Main {
                 System.out.println("\nREPORT : Language Reports");
                 LanguageReport.getLanguageSpeakers(connection);
 
+
+                // Generate world population
+                LookUp_Population.getWorldPopulation(connection);
+
+                // Report 2: Population of Asia
+                LookUp_Population.getContinentPopulation("North America", connection);
+                // Report 3: Population of Southeast Asia
+                LookUp_Population.getRegionPopulation("Southeast Asia", connection);
+
+
             } else {
                 System.out.println(
                         "Database connection is invalid.");
