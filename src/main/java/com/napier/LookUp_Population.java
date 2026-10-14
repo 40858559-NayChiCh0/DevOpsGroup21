@@ -5,10 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LookUp_PopulationReports {
+public class LookUp_Population {
 
     /**
-     * Generates a report showing the total population of the world.
      *
      * @param connection Active database connection
      */
@@ -22,7 +21,7 @@ public class LookUp_PopulationReports {
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
-            System.out.println("\nWORLD POPULATION REPORT");
+            System.out.println("\nWORLD POPULATION");
             System.out.println("-----------------------------------");
 
             if (rs.next()) {
@@ -35,12 +34,11 @@ public class LookUp_PopulationReports {
             System.out.println("-----------------------------------");
 
         } catch (SQLException e) {
-            System.err.println("Error generating world population report: " + e.getMessage());
+            System.err.println("Error generating world population: " + e.getMessage());
         }
     }
 
     /**
-     * Generates a report showing the total population of a selected continent.
      *
      * @param continent Name of the selected continent
      * @param connection Active database connection
@@ -61,7 +59,7 @@ public class LookUp_PopulationReports {
 
             try (ResultSet rs = stmt.executeQuery()) {
 
-                System.out.println("\nCONTINENT POPULATION REPORT");
+                System.out.println("\nCONTINENT POPULATION Queries");
                 System.out.println("-------------------------------------------");
                 System.out.printf("%-20s %20s%n", "Continent", "Population");
                 System.out.println("-------------------------------------------");
@@ -79,7 +77,7 @@ public class LookUp_PopulationReports {
             }
 
         } catch (SQLException e) {
-            System.err.println("Error generating continent population report: " + e.getMessage());
+            System.err.println("Error generating continent population queries: " + e.getMessage());
         }
     }
 }

@@ -16,11 +16,11 @@ public class Main {
                 System.out.println(
                         "Database connection succeeded.");
 
-                // Generate world population report
-                LookUp_PopulationReports.getWorldPopulation(connection);
+                // Generate world population
+                LookUp_Population.getWorldPopulation(connection);
 
                 // Report 2: Population of Asia
-                LookUp_PopulationReports.getContinentPopulation("North America", connection);
+                LookUp_Population.getContinentPopulation("North America", connection);
 
 
             } else {
