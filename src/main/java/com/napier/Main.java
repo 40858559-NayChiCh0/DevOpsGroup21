@@ -13,17 +13,23 @@ public class Main {
                      DBConnection.getConnection()) {
 
             if (connection.isValid(2)) {
+                System.out.println(
+                        "Database connection succeeded.");
 
-                System.out.println("Database connection succeeded.");
+                // Generate and display the language speakers report
+                System.out.println("\nREPORT : Language Reports");
+                LanguageReport.getLanguageSpeakers(connection);
 
             } else {
-                System.out.println("Database connection is invalid.");
+                System.out.println(
+                        "Database connection is invalid.");
             }
 
         } catch (SQLException e) {
 
-            System.err.println("Database connection failed: "
-                    + e.getMessage());
+            System.err.println(
+                    "Database connection failed: "
+                            + e.getMessage());
 
             e.printStackTrace();
         }
