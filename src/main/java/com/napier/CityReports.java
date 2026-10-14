@@ -72,12 +72,6 @@ public class CityReports {
     }
 
     /**
-     * Prints all cities in a formatted table.
-     *
-     * @param cities List of cities.
-     */
-
-    /**
      * Prints cities in a formatted table with a dynamic title.
      *
      * @param cities List of cities.

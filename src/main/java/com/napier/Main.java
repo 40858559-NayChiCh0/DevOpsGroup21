@@ -38,7 +38,6 @@ public class Main {
                         "ALL CITIES IN " + continent.toUpperCase()
                                 + " BY POPULATION");
 
-
                 // Issue 36: All cities in a region by population.
                 ArrayList<City> regionCities =
                         cityReport.getCitiesByRegion(
@@ -48,6 +47,7 @@ public class Main {
                         regionCities,
                         "ALL CITIES IN " + region.toUpperCase()
                                 + " BY POPULATION");
+
 
             } else {
                 System.out.println(
