@@ -76,15 +76,22 @@ public class CityReports {
      *
      * @param cities List of cities.
      */
-    public void printCityReport(ArrayList<City> cities) {
+
+    /**
+     * Prints cities in a formatted table with a dynamic title.
+     *
+     * @param cities List of cities.
+     * @param title Title of the report.
+     */
+    public void printCityReport(ArrayList<City> cities, String title) {
+
+        System.out.println(
+                "\n========== " + title + " ==========");
 
         if (cities == null || cities.isEmpty()) {
             System.out.println("No cities found.");
             return;
         }
-
-        System.out.println(
-                "\n========== ALL CITIES IN THE WORLD ==========");
 
         System.out.printf(
                 "%-25s %-25s %-25s %15s%n",
@@ -105,6 +112,7 @@ public class CityReports {
         System.out.println("-".repeat(95));
         System.out.println("Total cities: " + cities.size());
     }
+
 
     /**
      * Issue 35: All cities in a selected continent
@@ -242,4 +250,5 @@ public class CityReports {
 
         return cities;
     }
+
 }
