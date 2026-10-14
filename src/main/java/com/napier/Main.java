@@ -2,47 +2,40 @@ package com.napier;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    static void main(String[] args) {
+    public static void main(String[] args) {
 
-        try (Connection connection =
-                     DBConnection.getConnection()) {
+        try (Connection connection = DBConnection.getConnection()) {
 
             if (connection.isValid(2)) {
                 System.out.println(
                         "Database connection succeeded.");
 
-                // Generate and display the language speakers report
-                System.out.println("\nREPORT : Language Reports");
-                LanguageReport.getLanguageSpeakers(connection);
+                CapitalCityReports reports =
+                        new CapitalCityReports(connection);
 
+                System.out.println(
+                        "\nREPORT 1: All Capital Cities in the World");
+                reports.getAllCapitalCities();
 
-                // Generate world population
-                LookUp_Population.getWorldPopulation(connection);
+                System.out.println(
+                        "\nREPORT 2: Capital Cities in Asia");
+                reports.getCapitalCitiesByContinent("Asia");
 
-                // Report 2: Population of Asia
-                LookUp_Population.getContinentPopulation("North America", connection);
-                // Report 3: Population of Southeast Asia
-                LookUp_Population.getRegionPopulation("Southeast Asia", connection);
-
-
+                System.out.println(
+                        "\nREPORT 3: Capital Cities in Southeast Asia");
+                reports.getCapitalCitiesByRegion("Southeast Asia");
             } else {
                 System.out.println(
                         "Database connection is invalid.");
             }
 
         } catch (SQLException e) {
-
             System.err.println(
-                    "Database connection failed: "
-                            + e.getMessage());
+                    "Database connection failed: " + e.getMessage());
 
             e.printStackTrace();
         }
-
     }
 }

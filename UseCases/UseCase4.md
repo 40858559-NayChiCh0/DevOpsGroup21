@@ -30,7 +30,7 @@ The system generates and displays the corresponding population reports which inc
 
 ### Failed End Condition
 
-The system is unable to generate the requested population report due to database errors or unavailable population data, and an appropriate error message is displayed.
+No report is produced.
 
 ### Primary Actor
 
