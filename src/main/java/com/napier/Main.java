@@ -45,6 +45,13 @@ public class Main {
             capitalReports.getCapitalCitiesByRegion("Southeast Asia");
 
 
+            // Population breakdown report by continent
+            System.out.println("\nREPORT: Population Breakdown");
+            System.out.println("=================================");
+
+            PopulationReport populationReport = new PopulationReport(connection);
+            populationReport.generateContinentReport();
+
 
             // Population lookup reports.
             System.out.println("\nREPORT: Population LookUp Reports");
