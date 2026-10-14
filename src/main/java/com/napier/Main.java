@@ -9,6 +9,7 @@ public class Main {
 
         // Change these values to generate reports for other locations.
         String continent = "Asia";
+        String region = "Eastern Asia";
 
         try (Connection connection =
                      DBConnection.getConnection()) {
@@ -18,16 +19,36 @@ public class Main {
                         "Database connection succeeded.");
                 CityReports cityReport = new CityReports();
 
+
                 // Issue 34: All cities in the world by population.
-                System.out.println("\nIssue 1: All Cities in the World by Population");
-                ArrayList<City> cities = cityReport.getAllCities(connection);
-                cityReport.printCityReport(cities);
+                ArrayList<City> cities =
+                        cityReport.getAllCities(connection);
+
+                cityReport.printCityReport(
+                        cities,
+                        "ALL CITIES IN THE WORLD BY POPULATION");
 
                 // Issue 35: All cities in a continent(Asia) by population.
-                System.out.println("\nIssue 2: All Cities in " + continent + " by Population");
                 ArrayList<City> continentCities =
-                        cityReport.getCitiesByContinent(connection, continent);
-                cityReport.printCityReport(continentCities);
+                        cityReport.getCitiesByContinent(
+                                connection, continent);
+
+                cityReport.printCityReport(
+                        continentCities,
+                        "ALL CITIES IN " + continent.toUpperCase()
+                                + " BY POPULATION");
+
+
+                // Issue 36: All cities in a region by population.
+                ArrayList<City> regionCities =
+                        cityReport.getCitiesByRegion(
+                                connection, region);
+
+                cityReport.printCityReport(
+                        regionCities,
+                        "ALL CITIES IN " + region.toUpperCase()
+                                + " BY POPULATION");
+
             } else {
                 System.out.println(
                         "Database connection is invalid.");
