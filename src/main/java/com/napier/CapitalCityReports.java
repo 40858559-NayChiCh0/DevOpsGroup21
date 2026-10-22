@@ -1,3 +1,4 @@
+
 package com.napier;
 
 import java.sql.Connection;
@@ -24,8 +25,9 @@ public class CapitalCityReports {
                         "JOIN city ci ON co.Capital = ci.ID " +
                         "ORDER BY ci.Population DESC";
 
-        printReport(sql,null);
+        printReport(sql, null);
     }
+
     // REPORT 2: All capital cities in a continent
     public void getCapitalCitiesByContinent(String continent)
             throws SQLException {
@@ -41,6 +43,7 @@ public class CapitalCityReports {
 
         printReport(sql, continent);
     }
+
     // REPORT 3: All capital cities in a region
     public void getCapitalCitiesByRegion(String region)
             throws SQLException {
@@ -57,7 +60,28 @@ public class CapitalCityReports {
         printReport(sql, region);
     }
 
-    // Shared method to run SQL and display results
+    // REPORT 4: Top N capital cities in the world
+    public void getTopNCapitalCities(int n)
+            throws SQLException {
+
+        if (n <= 0) {
+            System.out.println("N must be greater than zero.");
+            return;
+        }
+
+        String sql =
+                "SELECT ci.Name AS Capital, " +
+                        "co.Name AS Country, " +
+                        "ci.Population " +
+                        "FROM country co " +
+                        "JOIN city ci ON co.Capital = ci.ID " +
+                        "ORDER BY ci.Population DESC " +
+                        "LIMIT ?";
+
+        printTopNReport(sql, n);
+    }
+
+    // Shared method for Reports 1, 2 and 3
     private void printReport(String sql, String filter)
             throws SQLException {
 
@@ -85,7 +109,57 @@ public class CapitalCityReports {
 
                     City city = new City();
                     city.setName(rs.getString("Capital"));
-                    city.setPopulation(rs.getInt("Population"));
+                    city.setPopulation(
+                            rs.getInt("Population"));
+
+                    Country country = new Country();
+                    country.setName(rs.getString("Country"));
+
+                    System.out.printf(
+                            "%-30s %-35s %,15d%n",
+                            city.getName(),
+                            country.getName(),
+                            city.getPopulation()
+                    );
+                }
+
+                if (!found) {
+                    System.out.println(
+                            "No capital cities found.");
+                }
+            }
+        }
+    }
+
+    // Shared method for Report 4: Top N
+    private void printTopNReport(String sql, int n)
+            throws SQLException {
+
+        try (PreparedStatement stmt =
+                     connection.prepareStatement(sql)) {
+
+            // Set the Top N value
+            stmt.setInt(1, n);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                System.out.printf(
+                        "%-30s %-35s %15s%n",
+                        "Name", "Country", "Population");
+
+                System.out.println(
+                        "------------------------------------------------" +
+                                "--------------------------------");
+
+                boolean found = false;
+
+                while (rs.next()) {
+                    found = true;
+
+                    City city = new City();
+                    city.setName(rs.getString("Capital"));
+                    city.setPopulation(
+                            rs.getInt("Population"));
 
                     Country country = new Country();
                     country.setName(rs.getString("Country"));
