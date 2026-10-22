@@ -1,40 +1,89 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.kotlin
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+# ==========================================
+# DevOpsGroup21 - Java Maven Docker Project
+# ==========================================
+
+# IntelliJ IDEA
 .idea/
-*.iws
 *.iml
+*.iws
 *.ipr
+out/
 
-### Eclipse ###
-.apt_generated
+# Eclipse
 .classpath
-.factorypath
 .project
-.settings
-.springBeans
-.sts4-cache
+.settings/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# VS Code
 .vscode/
 
-### Mac OS ###
+# Maven build outputs
+target/
+*.class
+
+# Gradle (if used)
+.gradle/
+build/
+
+# Operating system files
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.bak
+*.orig
+
+# Log files
+*.log
+logs/
+*.log.*
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Private credentials and keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+credentials.json
+secrets.json
+
+# Local database files and dumps
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+*.dump
+
+# Test reports and coverage output
+coverage/
+.coverage
+htmlcov/
+test-output/
+
+# Local configuration
+application-local.properties
+application-secret.properties
+config.local.yml
+config.local.yaml
+
+# Docker Compose local overrides
+docker-compose.override.yml
+compose.override.yml
