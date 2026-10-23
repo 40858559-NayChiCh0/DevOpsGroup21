@@ -12,6 +12,7 @@ public class Main {
             }
             System.out.println("Database connection succeeded.");
 
+
             // Country reports (these methods manage their own connections).
             System.out.println("\nREPORT: Country Reports");
             System.out.println("\n===========================");
