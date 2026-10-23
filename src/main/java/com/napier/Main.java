@@ -10,6 +10,7 @@ public class Main {
         // Change these values to generate reports for other locations.
         String continent = "Asia";
         String region = "Eastern Asia";
+        String countryName = "Myanmar";
 
         try (Connection connection =
                      DBConnection.getConnection()) {
@@ -48,6 +49,13 @@ public class Main {
                         "ALL CITIES IN " + region.toUpperCase()
                                 + " BY POPULATION");
 
+                // Issue 37: All cities in a selected country
+                ArrayList<City> countryCities =
+                        cityReport.getCitiesByCountry(
+                                connection, countryName);
+                cityReport.printCityReport(countryCities,
+                        "ALL CITIES IN " + countryName.toUpperCase()
+                                + "BY POPULATION");
 
             } else {
                 System.out.println(
