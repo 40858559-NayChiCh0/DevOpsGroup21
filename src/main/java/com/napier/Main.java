@@ -47,6 +47,7 @@ public class Main {
             capitalReports.getTopNCapitalCities(10);
 
 
+
             // Population breakdown report by continent
             System.out.println("\nREPORT: Population Breakdown");
             System.out.println("=================================");
