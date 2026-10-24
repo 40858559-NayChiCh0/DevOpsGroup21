@@ -11,6 +11,7 @@ public class Main {
         String continent = "Asia";
         String region = "Eastern Asia";
         String countryName = "Myanmar";
+        String district = "Mandalay";
 
         try (Connection connection =
                      DBConnection.getConnection()) {
@@ -56,6 +57,12 @@ public class Main {
                 cityReport.printCityReport(countryCities,
                         "ALL CITIES IN " + countryName.toUpperCase()
                                 + "BY POPULATION");
+
+                // Issue 38: All cities in a district by population
+                ArrayList<City> districtCities = cityReport.getCitiesByDistrict(
+                        connection, district);
+                cityReport.printCityReport(districtCities,
+                        "ALL CITIES IN " + district.toUpperCase() + " BY POPULATION");
 
             } else {
                 System.out.println(

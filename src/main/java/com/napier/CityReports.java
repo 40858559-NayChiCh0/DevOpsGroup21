@@ -294,4 +294,72 @@ public class CityReports {
     }
 
 
+    /**
+     * Issue 38: All cities in a selected district
+     * ordered by population from largest to smallest.
+     *
+     * @param connection Database connection.
+     * @param district Selected district.
+     * @return List of cities.
+     */
+    public ArrayList<City> getCitiesByDistrict(
+            Connection connection, String district) {
+
+        ArrayList<City> cities = new ArrayList<>();
+
+        String sql = """
+            SELECT city.ID,
+                   city.Name,
+                   city.CountryCode,
+                   country.Name AS CountryName,
+                   city.District,
+                   city.Population
+            FROM city
+            JOIN country
+                ON city.CountryCode = country.Code
+            WHERE city.District = ?
+            ORDER BY city.Population DESC, city.ID ASC
+            """;
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, district);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+
+                    City city = new City();
+
+                    city.setId(resultSet.getInt("ID"));
+                    city.setName(resultSet.getString("Name"));
+                    city.setCountryCode(
+                            resultSet.getString("CountryCode"));
+                    city.setDistrict(
+                            resultSet.getString("District"));
+                    city.setPopulation(
+                            resultSet.getInt("Population"));
+
+                    Country country = new Country();
+
+                    country.setCode(
+                            resultSet.getString("CountryCode"));
+                    country.setName(
+                            resultSet.getString("CountryName"));
+
+                    city.setCountry(country);
+                    cities.add(city);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to retrieve cities for district: "
+                            + district, e);
+        }
+
+        return cities;
+    }
+
 }
