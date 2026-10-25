@@ -32,6 +32,11 @@ public class Main {
                     "Cities in Asia");
             cityReports.printCityReport(cityReports.getCitiesByRegion(connection, "Southeast Asia"),
                     "Cities in Southeast Asia");
+            cityReports.printCityReport(cityReports.getCitiesByCountry(connection, "Myanmar"),
+                    "Cities in Myanmar");
+            cityReports.printCityReport(cityReports.getCitiesByDistrict(connection, "Mandalay"),
+                    "Cities in Mandalay");
+
 
             // Capital city reports.
             System.out.println("\nREPORT: Capital Cities Reports");
