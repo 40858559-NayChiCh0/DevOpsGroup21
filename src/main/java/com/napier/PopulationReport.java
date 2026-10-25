@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Generates population breakdown reports for
- * continents, regions, and countries.
+ * Generates population breakdown reports
+ * for continents and regions.
  */
 public class PopulationReport {
 
@@ -21,18 +21,14 @@ public class PopulationReport {
     }
 
     /**
-     * Retrieves population data grouped by a column.
-     *
-     * @param groupColumn Continent, Region, or Name
-     * @return List of population breakdowns
+     * Retrieves population data grouped by continent or region.
      */
     private List<PopulationBreakdown> getPopulationReport(
             String groupColumn) throws SQLException {
 
-        // Only predefined grouping columns are allowed.
         if (!groupColumn.equals("Continent")
-                && !groupColumn.equals("Region")
-                && !groupColumn.equals("Name")) {
+                && !groupColumn.equals("Region")) {
+
             throw new IllegalArgumentException(
                     "Invalid report scope");
         }
@@ -78,18 +74,9 @@ public class PopulationReport {
                 long urban =
                         resultSet.getLong("UrbanPopulation");
 
-
-                if (total < 0 || urban < 0 || urban > total) {
-                    System.err.printf(
-                            "Invalid population: %s | Total: %,d | Urban: %,d%n",
-                            name, total, urban
-                    );
-                    continue;
-                }
-
                 PopulationBreakdown report =
-                        new PopulationBreakdown(name, total, urban);
-
+                        new PopulationBreakdown(
+                                name, total, urban);
 
                 reports.add(report);
             }
@@ -117,16 +104,7 @@ public class PopulationReport {
     }
 
     /**
-     * Issue #52: Population breakdown by country.
-     */
-    public List<PopulationBreakdown> getCountryReport()
-            throws SQLException {
-
-        return getPopulationReport("Name");
-    }
-
-    /**
-     * Displays a population report in table format.
+     * Displays population data in a formatted table.
      */
     public void printReport(
             String title,
@@ -193,25 +171,12 @@ public class PopulationReport {
     }
 
     /**
-     * Generates the country report.
-     */
-    public void generateCountryReport()
-            throws SQLException {
-
-        printReport(
-                "Population Breakdown by Country",
-                getCountryReport()
-        );
-    }
-
-    /**
-     * Generates all three reports.
+     * Generates both reports.
      */
     public void generateAllReports()
             throws SQLException {
 
         generateContinentReport();
         generateRegionReport();
-        generateCountryReport();
     }
 }

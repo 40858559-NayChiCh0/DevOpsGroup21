@@ -119,4 +119,29 @@ public class City {
     public void setPopulation(int population) {
         this.population = population;
     }
+
+
+    /**
+     * The country associated with this city.
+     */
+    private Country country;
+
+    /**
+     * Gets the country associated with this city.
+     *
+     * @return Country object
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * Sets the country associated with this city.
+     *
+     * @param country Country object
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
 }
