@@ -37,6 +37,26 @@ public class Main {
             cityReports.printCityReport(cityReports.getCitiesByDistrict(connection, "Mandalay"),
                     "Cities in Mandalay");
 
+            //Top N City Reports
+            TopNCityReports topNCityReports = new TopNCityReports();
+
+            // Issue #41: Top N Populated Cities in a Selected Region
+            System.out.println("\nREPORT: Top N Populated Cities in a Region");
+            System.out.println("========================================");
+
+            // Retrieve the five most populated cities
+            // in Southeast Asia.
+            String region = "Southeast Asia";
+            int regionTopN = 5;
+
+            // Retrieve and display the report.
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByRegion(
+                            connection, region, regionTopN),
+                    "Top " + regionTopN
+                            + " Populated Cities in " + region
+            );
+
 
             // Capital city reports.
             System.out.println("\nREPORT: Capital Cities Reports");
