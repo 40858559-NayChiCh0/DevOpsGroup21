@@ -6,7 +6,7 @@ services:
         condition: service_healthy
     environment:
       DB_HOST: db
-      DB_PORT: "33061"
+      DB_PORT: "3306"
       DB_NAME: world
       DB_USER: devops
       DB_PASSWORD: devops
