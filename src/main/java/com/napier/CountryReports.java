@@ -170,4 +170,46 @@ public class CountryReports {
                     + e.getMessage());
         }
     }
+    // Display the top N most populated countries in a continent
+    public static void getTopNPopulatedCountriesByContinent(
+            String continent, int n) {
+
+        if (n <= 0) {
+            System.out.println("N must be greater than zero.");
+            return;
+        }
+
+        String sql = "SELECT Code, Name, Continent, Population " +
+                "FROM country " +
+                "WHERE Continent = ? " +
+                "ORDER BY Population DESC " +
+                "LIMIT ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, continent);
+            pstmt.setInt(2, n);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                System.out.println("\nTop " + n +
+                        " Populated Countries in " + continent);
+
+                System.out.printf("%-10s %-35s %-20s %15s%n",
+                        "Code", "Country", "Continent", "Population");
+
+                while (rs.next()) {
+                    System.out.printf("%-10s %-35s %-20s %,15d%n",
+                            rs.getString("Code"),
+                            rs.getString("Name"),
+                            rs.getString("Continent"),
+                            rs.getLong("Population"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving countries by continent: "
+                    + e.getMessage());
+        }
+    }
 }

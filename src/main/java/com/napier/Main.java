@@ -24,6 +24,9 @@ public class Main {
             // Top N populated countries report.
             System.out.println("\nTop 10 Populated Countries");
             CountryReports.getTopNPopulatedCountries(10);
+            // Top N populated countries in Asia
+            System.out.println("\nTop 10 Populated Countries in Asia");
+            CountryReports.getTopNPopulatedCountriesByContinent("Asia", 10);
 
             // City reports.
             System.out.println("\nREPORT: City Reports");
