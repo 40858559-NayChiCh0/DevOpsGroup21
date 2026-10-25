@@ -135,4 +135,39 @@ public class CountryReports {
                             + e.getMessage());
         }
     }
+    // Display the top N most populated countries in the world
+    public static void getTopNPopulatedCountries(int n) {
+        String sql = "SELECT Code, Name, Population " +
+                "FROM country " +
+                "ORDER BY Population DESC " +
+                "LIMIT ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            if (n <= 0) {
+                System.out.println("N must be greater than zero.");
+                return;
+            }
+
+            pstmt.setInt(1, n);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                System.out.println("\nTop " + n + " Populated Countries");
+                System.out.printf("%-10s %-35s %15s%n",
+                        "Code", "Country", "Population");
+
+                while (rs.next()) {
+                    System.out.printf("%-10s %-35s %,15d%n",
+                            rs.getString("Code"),
+                            rs.getString("Name"),
+                            rs.getLong("Population"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving top populated countries: "
+                    + e.getMessage());
+        }
+    }
 }

@@ -21,6 +21,9 @@ public class Main {
             CountryReports.getCountriesByContinent("Asia");
             System.out.println("\nCountries in Southeast Asia");
             CountryReports.getCountriesByRegion("Southeast Asia");
+            // Top N populated countries report.
+            System.out.println("\nTop 10 Populated Countries");
+            CountryReports.getTopNPopulatedCountries(10);
 
             // City reports.
             System.out.println("\nREPORT: City Reports");
