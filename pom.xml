@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.napier</groupId>
-    <artifactId>PopulationSystem</artifactId>
+    <artifactId>DevOpsGp21</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -13,7 +13,6 @@
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.mysql</groupId>
@@ -21,6 +20,8 @@
             <version>9.4.0</version>
         </dependency>
     </dependencies>
+
+
 
     <build>
         <plugins>
@@ -30,7 +31,6 @@
                 <executions>
                     <execution>
                         <id>default-jar</id>
-                        <!--  skip building the default-jar -->
                         <phase>none</phase>
                     </execution>
                 </executions>

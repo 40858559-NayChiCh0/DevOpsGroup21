@@ -1,4 +1,3 @@
-
 package com.napier;
 
 /**
@@ -20,11 +19,6 @@ public class City {
      * The country code of the city.
      */
     private String countryCode;
-
-    /**
-     * The country where the city is located.
-     */
-    private Country country;
 
     /**
      * The district where the city is located.
@@ -91,24 +85,6 @@ public class City {
     }
 
     /**
-     * Gets the country object.
-     *
-     * @return The country.
-     */
-    public Country getCountry() {
-        return country;
-    }
-
-    /**
-     * Sets the country object.
-     *
-     * @param country The country.
-     */
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    /**
      * Gets the district.
      *
      * @return The district.
@@ -125,7 +101,6 @@ public class City {
     public void setDistrict(String district) {
         this.district = district;
     }
-
     /**
      * Gets the city population.
      *
@@ -134,7 +109,6 @@ public class City {
     public int getPopulation() {
         return population;
     }
-
     /**
      * Sets the city population.
      *
@@ -142,5 +116,16 @@ public class City {
      */
     public void setPopulation(int population) {
         this.population = population;
+    }
+
+    /** Country associated with this city. */
+    private Country country;
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }
