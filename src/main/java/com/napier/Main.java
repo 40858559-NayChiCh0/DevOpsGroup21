@@ -8,29 +8,40 @@ public class Main {
 
     public static void main(String[] args) {
 
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection =
+                     DBConnection.getConnection()) {
 
             if (connection.isValid(2)) {
 
-                System.out.println("Database connection succeeded.");
+                System.out.println(
+                        "Database connection succeeded.");
 
-                // Issue #50: Population Breakdown by Continent
+                // Population Breakdown & Urbanization Reports
                 PopulationReport report =
                         new PopulationReport(connection);
 
+                // Issue #50: Continent report
                 report.generateContinentReport();
 
-            }else {
-                System.out.println("Database connection is invalid.");
+                // Issue #51: Region report
+                report.generateRegionReport();
+
+                // Issue #52: Country report
+                report.generateCountryReport();
+
+            } else {
+
+                System.out.println(
+                        "Database connection is invalid.");
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | IllegalArgumentException e) {
 
-            System.err.println("Database connection failed: "
-                    + e.getMessage());
+            System.err.println(
+                    "Database connection or report failed: "
+                            + e.getMessage());
 
             e.printStackTrace();
         }
-
     }
 }

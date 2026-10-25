@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Generates population breakdown reports for continents.
+ * Generates population breakdown reports for
+ * continents, regions, and countries.
  */
 public class PopulationReport {
 
@@ -20,16 +21,25 @@ public class PopulationReport {
     }
 
     /**
-     * Retrieves population data for each continent.
+     * Retrieves population data grouped by a column.
      *
+     * @param groupColumn Continent, Region, or Name
      * @return List of population breakdowns
      */
-    public List<PopulationBreakdown> getContinentReport()
-            throws SQLException {
+    private List<PopulationBreakdown> getPopulationReport(
+            String groupColumn) throws SQLException {
+
+        // Only predefined grouping columns are allowed.
+        if (!groupColumn.equals("Continent")
+                && !groupColumn.equals("Region")
+                && !groupColumn.equals("Name")) {
+            throw new IllegalArgumentException(
+                    "Invalid report scope");
+        }
 
         String sql = """
             SELECT
-                c.Continent AS ReportName,
+                c.%s AS ReportName,
                 SUM(c.Population) AS TotalPopulation,
                 SUM(COALESCE(cp.UrbanPopulation, 0))
                     AS UrbanPopulation
@@ -41,9 +51,13 @@ public class PopulationReport {
                 FROM city
                 GROUP BY CountryCode
             ) cp ON c.Code = cp.CountryCode
-            GROUP BY c.Continent
-            ORDER BY c.Continent
-            """;
+            GROUP BY c.%s
+            ORDER BY c.%s
+            """.formatted(
+                groupColumn,
+                groupColumn,
+                groupColumn
+        );
 
         List<PopulationBreakdown> reports =
                 new ArrayList<>();
@@ -52,6 +66,7 @@ public class PopulationReport {
                      connection.prepareStatement(sql);
              ResultSet resultSet =
                      statement.executeQuery()) {
+
             while (resultSet.next()) {
 
                 String name =
@@ -63,9 +78,18 @@ public class PopulationReport {
                 long urban =
                         resultSet.getLong("UrbanPopulation");
 
+
+                if (total < 0 || urban < 0 || urban > total) {
+                    System.err.printf(
+                            "Invalid population: %s | Total: %,d | Urban: %,d%n",
+                            name, total, urban
+                    );
+                    continue;
+                }
+
                 PopulationBreakdown report =
-                        new PopulationBreakdown(
-                                name, total, urban);
+                        new PopulationBreakdown(name, total, urban);
+
 
                 reports.add(report);
             }
@@ -75,7 +99,34 @@ public class PopulationReport {
     }
 
     /**
-     * Displays population data in a formatted table.
+     * Issue #50: Population breakdown by continent.
+     */
+    public List<PopulationBreakdown> getContinentReport()
+            throws SQLException {
+
+        return getPopulationReport("Continent");
+    }
+
+    /**
+     * Issue #51: Population breakdown by region.
+     */
+    public List<PopulationBreakdown> getRegionReport()
+            throws SQLException {
+
+        return getPopulationReport("Region");
+    }
+
+    /**
+     * Issue #52: Population breakdown by country.
+     */
+    public List<PopulationBreakdown> getCountryReport()
+            throws SQLException {
+
+        return getPopulationReport("Name");
+    }
+
+    /**
+     * Displays a population report in table format.
      */
     public void printReport(
             String title,
@@ -86,7 +137,7 @@ public class PopulationReport {
 
         System.out.printf(
                 "%-35s %18s %15s %10s %15s %10s%n",
-                "Continent",
+                "Name",
                 "Total Population",
                 "Urban",
                 "Urban %",
@@ -95,6 +146,11 @@ public class PopulationReport {
         );
 
         System.out.println("-".repeat(115));
+
+        if (reports.isEmpty()) {
+            System.out.println(
+                    "No population data available.");
+        }
 
         for (PopulationBreakdown report : reports) {
 
@@ -113,13 +169,49 @@ public class PopulationReport {
     }
 
     /**
-     * Generates the continent population breakdown report.
+     * Generates the continent report.
      */
-    public void generateContinentReport() throws SQLException {
+    public void generateContinentReport()
+            throws SQLException {
 
         printReport(
                 "Population Breakdown by Continent",
                 getContinentReport()
         );
+    }
+
+    /**
+     * Generates the region report.
+     */
+    public void generateRegionReport()
+            throws SQLException {
+
+        printReport(
+                "Population Breakdown by Region",
+                getRegionReport()
+        );
+    }
+
+    /**
+     * Generates the country report.
+     */
+    public void generateCountryReport()
+            throws SQLException {
+
+        printReport(
+                "Population Breakdown by Country",
+                getCountryReport()
+        );
+    }
+
+    /**
+     * Generates all three reports.
+     */
+    public void generateAllReports()
+            throws SQLException {
+
+        generateContinentReport();
+        generateRegionReport();
+        generateCountryReport();
     }
 }

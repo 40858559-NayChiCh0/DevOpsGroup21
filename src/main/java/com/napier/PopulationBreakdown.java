@@ -15,10 +15,18 @@ public class PopulationBreakdown {
     public PopulationBreakdown(String name,
                                long totalPopulation,
                                long urbanPopulation) {
+
+        if (totalPopulation < 0 || urbanPopulation < 0
+                || urbanPopulation > totalPopulation) {
+            throw new IllegalArgumentException(
+                    "Invalid population values");
+        }
+
         this.name = name;
         this.totalPopulation = totalPopulation;
         this.urbanPopulation = urbanPopulation;
-        this.ruralPopulation = totalPopulation - urbanPopulation;
+        this.ruralPopulation =
+                totalPopulation - urbanPopulation;
     }
 
     public String getName() {
@@ -39,14 +47,15 @@ public class PopulationBreakdown {
 
     public double getUrbanPercentage() {
         if (totalPopulation == 0) {
-            return 0;
+            return 0.0;
         }
+
         return urbanPopulation * 100.0 / totalPopulation;
     }
 
     public double getRuralPercentage() {
         if (totalPopulation == 0) {
-            return 0;
+            return 0.0;
         }
 
         return ruralPopulation * 100.0 / totalPopulation;
