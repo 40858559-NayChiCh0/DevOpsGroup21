@@ -92,7 +92,22 @@ public class CapitalCityReports {
 
         printTopNReport(sql, continent, n);
     }
+    // REPORT 6: Top N capital cities in a region
+    public void getTopNCapitalCitiesByRegion(
+            String region, int n) throws SQLException {
 
+        String sql =
+                "SELECT ci.Name AS Capital, " +
+                        "co.Name AS Country, " +
+                        "ci.Population " +
+                        "FROM country co " +
+                        "JOIN city ci ON co.Capital = ci.ID " +
+                        "WHERE co.Region = ? " +
+                        "ORDER BY ci.Population DESC " +
+                        "LIMIT ?";
+
+        printTopNReport(sql, region, n);
+    }
     // Shared method for Reports 1, 2 and 3
     private void printReport(String sql, String filter)
             throws SQLException {
