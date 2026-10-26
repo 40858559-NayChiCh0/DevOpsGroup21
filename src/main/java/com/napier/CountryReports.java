@@ -212,4 +212,47 @@ public class CountryReports {
                     + e.getMessage());
         }
     }
+
+    public static void getTopNPopulatedCountriesByRegion(
+            String region, int n) {
+
+        if (n <= 0) {
+            System.out.println("N must be greater than zero.");
+            return;
+        }
+
+        String sql = "SELECT Code, Name, Region, Population " +
+                "FROM country " +
+                "WHERE Region = ? " +
+                "ORDER BY Population DESC " +
+                "LIMIT ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setString(1, region);
+            pstmt.setInt(2, n);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                System.out.println("\nTop " + n +
+                        " Populated Countries in " + region);
+
+                System.out.printf("%-10s %-35s %-25s %15s%n",
+                        "Code", "Country", "Region", "Population");
+
+                while (rs.next()) {
+                    System.out.printf("%-10s %-35s %-25s %,15d%n",
+                            rs.getString("Code"),
+                            rs.getString("Name"),
+                            rs.getString("Region"),
+                            rs.getLong("Population"));
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving countries by region: "
+                    + e.getMessage());
+        }
+    }
+
 }
