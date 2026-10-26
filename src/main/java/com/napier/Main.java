@@ -46,7 +46,8 @@ public class Main {
             capitalReports.getCapitalCitiesByRegion("Southeast Asia");
             System.out.println("\nTop 10 Capital Cities in the World");
             capitalReports.getTopNCapitalCities(10);
-
+            System.out.println("\nTop 5 Capital Cities in Asia");
+            capitalReports.getTopNCapitalCitiesByContinent("Asia", 5);
 
 
             // Population breakdown report by continent
