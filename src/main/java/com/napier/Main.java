@@ -56,6 +56,12 @@ public class Main {
                     "Top " + regionTopN
                             + " Populated Cities in " + region
             );
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesInWorld(
+                            connection, regionTopN),
+                    "Top " + regionTopN
+                            + " Populated Cities in the World"
+            );
 
 
             // Capital city reports.
