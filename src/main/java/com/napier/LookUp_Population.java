@@ -126,4 +126,48 @@ public class LookUp_Population {
                     "Error generating region population: " + e.getMessage());
         }
     }
+    /**
+     * Retrieves the population of a selected country.
+     *
+     * @param country Name of the selected country
+     * @param connection Active database connection
+     */
+    public static void getCountryPopulation(String country, Connection connection) {
+
+        String sql = """
+            SELECT Name, Population
+            FROM country
+            WHERE Name = ?
+            """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, country);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                System.out.println("\nCOUNTRY POPULATION");
+                System.out.println("-------------------------------------------");
+                System.out.printf("%-30s %20s%n", "Country", "Population");
+                System.out.println("-------------------------------------------");
+
+                if (rs.next()) {
+                    String countryName = rs.getString("Name");
+                    long population = rs.getLong("Population");
+
+                    System.out.printf("%-30s %,20d%n",
+                            countryName, population);
+                } else {
+                    System.out.println(
+                            "No population data found for country: " + country);
+                }
+
+                System.out.println("-------------------------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.err.println(
+                    "Error generating country population: " + e.getMessage());
+        }
+    }
 }

@@ -22,6 +22,7 @@ public class Main {
             System.out.println("\nCountries in Southeast Asia");
             CountryReports.getCountriesByRegion("Southeast Asia");
 
+
             // City reports.
             System.out.println("\nREPORT: City Reports");
             System.out.println("\n===========================");
@@ -59,7 +60,7 @@ public class Main {
             LookUp_Population.getWorldPopulation(connection);
             LookUp_Population.getContinentPopulation("Asia", connection);
             LookUp_Population.getRegionPopulation("Southeast Asia", connection);
-
+            LookUp_Population.getCountryPopulation("Myanmar" , connection);
             // Language report.
             System.out.println("\nREPORT: Language Speakers Report");
             System.out.println("\n===========================");
