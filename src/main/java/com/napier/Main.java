@@ -46,8 +46,25 @@ public class Main {
 
             // Retrieve the five most populated cities
             // in Southeast Asia.
+            String continent = "Asia";
             String region = "Southeast Asia";
             int regionTopN = 5;
+
+            // Issue #39: Top N Populated Cities in the world
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesInWorld(
+                            connection, regionTopN),
+                    "Top " + regionTopN
+                            + " Populated Cities in the World"
+            );
+
+            // Issue #40: Top N Populated Cities in
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByContinent(
+                            connection,continent, regionTopN),
+                    "Top " + regionTopN
+                            + " Populated Cities in " + continent
+            );
 
             // Retrieve and display the report.
             cityReports.printCityReport(
@@ -56,45 +73,40 @@ public class Main {
                     "Top " + regionTopN
                             + " Populated Cities in " + region
             );
-            cityReports.printCityReport(
-                    topNCityReports.getTopNCitiesInWorld(
-                            connection, regionTopN),
-                    "Top " + regionTopN
-                            + " Populated Cities in the World"
-            );
 
-
-            // Capital city reports.
-            System.out.println("\nREPORT: Capital Cities Reports");
-            System.out.println("\n===============================");
-            CapitalCityReports capitalReports = new CapitalCityReports(connection);
-            System.out.println("\nCapital Cities in the World");
-            capitalReports.getAllCapitalCities();
-            System.out.println("\nCapital Cities in Asia");
-            capitalReports.getCapitalCitiesByContinent("Asia");
-            System.out.println("\nCapital Cities in Southeast Asia");
-            capitalReports.getCapitalCitiesByRegion("Southeast Asia");
-
-
-            // Population breakdown report by continent
-            System.out.println("\nREPORT: Population Breakdown");
-            System.out.println("=================================");
-
-            PopulationReport populationReport = new PopulationReport(connection);
-            populationReport.generateContinentReport();
-
-
-            // Population lookup reports.
-            System.out.println("\nREPORT: Population LookUp Reports");
-            System.out.println("\n=================================");
-            LookUp_Population.getWorldPopulation(connection);
-            LookUp_Population.getContinentPopulation("Asia", connection);
-            LookUp_Population.getRegionPopulation("Southeast Asia", connection);
-
-            // Language report.
-            System.out.println("\nREPORT: Language Speakers Report");
-            System.out.println("\n===========================");
-            LanguageReport.getLanguageSpeakers(connection);
+//
+//
+//            // Capital city reports.
+//            System.out.println("\nREPORT: Capital Cities Reports");
+//            System.out.println("\n===============================");
+//            CapitalCityReports capitalReports = new CapitalCityReports(connection);
+//            System.out.println("\nCapital Cities in the World");
+//            capitalReports.getAllCapitalCities();
+//            System.out.println("\nCapital Cities in Asia");
+//            capitalReports.getCapitalCitiesByContinent("Asia");
+//            System.out.println("\nCapital Cities in Southeast Asia");
+//            capitalReports.getCapitalCitiesByRegion("Southeast Asia");
+//
+//
+//            // Population breakdown report by continent
+//            System.out.println("\nREPORT: Population Breakdown");
+//            System.out.println("=================================");
+//
+//            PopulationReport populationReport = new PopulationReport(connection);
+//            populationReport.generateContinentReport();
+//
+//
+//            // Population lookup reports.
+//            System.out.println("\nREPORT: Population LookUp Reports");
+//            System.out.println("\n=================================");
+//            LookUp_Population.getWorldPopulation(connection);
+//            LookUp_Population.getContinentPopulation("Asia", connection);
+//            LookUp_Population.getRegionPopulation("Southeast Asia", connection);
+//
+//            // Language report.
+//            System.out.println("\nREPORT: Language Speakers Report");
+//            System.out.println("\n===========================");
+//            LanguageReport.getLanguageSpeakers(connection);
 
         } catch (SQLException e) {
             System.err.println("Database error: " + e.getMessage());

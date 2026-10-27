@@ -82,6 +82,83 @@ public class TopNCityReports {
         return cities;
     }
 
+    /**
+     * Issue 40: Top N populated cities in a continent.
+     * Retrieves the top N cities in a selected continent,
+     * ordered by population from largest to smallest.
+     *
+     * @param connection Database connection.
+     * @param continent Selected continent.
+     * @param n Number of cities to retrieve.
+     * @return List of top N populated cities in the continent.
+     */
+    public ArrayList<City> getTopNCitiesByContinent(
+            Connection connection, String continent, int n) {
+
+        ArrayList<City> cities = new ArrayList<>();
+
+        if (n <= 0) {
+            throw new IllegalArgumentException(
+                    "N must be greater than zero.");
+        }
+
+        String sql = """
+            SELECT city.ID,
+                   city.Name,
+                   city.CountryCode,
+                   country.Name AS CountryName,
+                   city.District,
+                   city.Population
+            FROM city
+            JOIN country
+                ON city.CountryCode = country.Code
+            WHERE country.Continent = ?
+            ORDER BY city.Population DESC, city.ID ASC
+            LIMIT ?
+            """;
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, continent);
+            statement.setInt(2, n);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+
+                    City city = new City();
+
+                    city.setId(resultSet.getInt("ID"));
+                    city.setName(resultSet.getString("Name"));
+                    city.setCountryCode(
+                            resultSet.getString("CountryCode"));
+                    city.setDistrict(
+                            resultSet.getString("District"));
+                    city.setPopulation(
+                            resultSet.getInt("Population"));
+
+                    Country country = new Country();
+
+                    country.setCode(
+                            resultSet.getString("CountryCode"));
+                    country.setName(
+                            resultSet.getString("CountryName"));
+
+                    city.setCountry(country);
+                    cities.add(city);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to retrieve top " + n
+                            + " populated cities in " + continent, e);
+        }
+
+        return cities;
+    }
+
 
     /**
      * Issue #41: Top N Populated Cities in a Selected Region.
