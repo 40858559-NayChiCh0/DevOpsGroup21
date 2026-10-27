@@ -232,4 +232,82 @@ public class TopNCityReports {
         return cities;
     }
 
+    /**
+     * Issue #42: Top N Populated Cities in a Selected Country.
+     *
+     * Retrieves the top N most populated cities in a selected
+     * country, ordered from largest to smallest population.
+     *
+     * @param connection Active database connection
+     * @param countryName Name of the selected country
+     * @param n Number of cities requested by the user
+     * @return List of the top N populated cities
+     * @throws SQLException If a database error occurs
+     */
+    public ArrayList<City> getTopNCitiesByCountry(
+            Connection connection, String countryName, int n)
+            throws SQLException {
+
+        ArrayList<City> cities = new ArrayList<>();
+
+        // Validate the country name and N value.
+        if (countryName == null || countryName.trim().isEmpty() || n <= 0) {
+            System.out.println("Invalid country name or N value.");
+            return cities;
+        }
+
+        // Retrieve cities belonging to the selected country.
+        // Join the country table to obtain the country name.
+        String sql =
+                "SELECT ci.ID, ci.Name, ci.CountryCode, " +
+                        "ci.District, ci.Population, " +
+                        "co.Name AS CountryName " +
+                        "FROM city ci " +
+                        "JOIN country co ON ci.CountryCode = co.Code " +
+                        "WHERE co.Name = ? " +
+                        "ORDER BY ci.Population DESC, ci.ID ASC " +
+                        "LIMIT ?";
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            // Set the selected country and number of cities.
+            statement.setString(1, countryName);
+            statement.setInt(2, n);
+
+            // Execute the SQL query.
+            try (ResultSet rs = statement.executeQuery()) {
+
+                while (rs.next()) {
+
+                    // Create and populate a City object.
+                    City city = new City();
+
+                    city.setId(rs.getInt("ID"));
+                    city.setName(rs.getString("Name"));
+                    city.setCountryCode(
+                            rs.getString("CountryCode"));
+                    city.setDistrict(rs.getString("District"));
+                    city.setPopulation(
+                            rs.getInt("Population"));
+
+                    // Create the associated Country object.
+                    Country country = new Country();
+                    country.setName(
+                            rs.getString("CountryName"));
+
+                    // Assign the Country object to the city.
+                    // Prevents NullPointerException when printing.
+                    city.setCountry(country);
+
+                    // Add the city to the report.
+                    cities.add(city);
+                }
+            }
+        }
+
+        return cities;
+    }
+
+
 }
