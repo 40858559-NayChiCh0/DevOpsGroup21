@@ -41,40 +41,46 @@ public class Main {
             TopNCityReports topNCityReports = new TopNCityReports();
 
             // Issue #41: Top N Populated Cities in a Selected Region
-            System.out.println("\nREPORT: Top N Populated Cities in a Region");
+            System.out.println("\nREPORTS: Top N Populated Cities Reports");
             System.out.println("========================================");
 
             // Retrieve the five most populated cities
             // in Southeast Asia.
             String continent = "Asia";
             String region = "Southeast Asia";
-            int regionTopN = 5;
+            String countryName = "Myanmar";
+            int topN = 5;
 
             // Issue #39: Top N Populated Cities in the world
             cityReports.printCityReport(
                     topNCityReports.getTopNCitiesInWorld(
-                            connection, regionTopN),
-                    "Top " + regionTopN
+                            connection, topN),
+                    "Top " + topN
                             + " Populated Cities in the World"
             );
 
             // Issue #40: Top N Populated Cities in
             cityReports.printCityReport(
                     topNCityReports.getTopNCitiesByContinent(
-                            connection,continent, regionTopN),
-                    "Top " + regionTopN
+                            connection,continent, topN),
+                    "Top " + topN
                             + " Populated Cities in " + continent
             );
 
             // Retrieve and display the report.
             cityReports.printCityReport(
                     topNCityReports.getTopNCitiesByRegion(
-                            connection, region, regionTopN),
-                    "Top " + regionTopN
+                            connection, region, topN),
+                    "Top " + topN
                             + " Populated Cities in " + region
             );
-
-
+            // Retrieve and display the report.
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByCountry(
+                            connection, countryName, topN),
+                    "Top " + topN
+                            + " Populated Cities in " + countryName
+            );
 
             // Capital city reports.
             System.out.println("\nREPORT: Capital Cities Reports");
