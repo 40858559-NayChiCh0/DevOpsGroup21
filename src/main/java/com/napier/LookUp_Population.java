@@ -170,4 +170,50 @@ public class LookUp_Population {
                     "Error generating country population: " + e.getMessage());
         }
     }
+    /**
+     * Retrieves the population of a selected district.
+     *
+     * @param district Name of the selected district
+     * @param connection Active database connection
+     */
+    public static void getDistrictPopulation(String district, Connection connection) {
+
+        String sql = """
+                SELECT District, SUM(Population) AS TotalPopulation
+                FROM city
+                WHERE District = ?
+                GROUP BY District
+                """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, district);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                System.out.println("\nDISTRICT POPULATION");
+                System.out.println("-------------------------------------------");
+                System.out.printf("%-30s %20s%n", "District", "Population");
+                System.out.println("-------------------------------------------");
+
+                if (rs.next()) {
+                    String districtName = rs.getString("District");
+                    long population = rs.getLong("TotalPopulation");
+
+                    System.out.printf("%-30s %,20d%n",
+                            districtName, population);
+                } else {
+                    System.out.println(
+                            "No population data found for district: " + district);
+                }
+
+                System.out.println("-------------------------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.err.println(
+                    "Error generating district population: " + e.getMessage());
+        }
+    }
+
 }
