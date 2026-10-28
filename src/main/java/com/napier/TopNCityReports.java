@@ -309,5 +309,78 @@ public class TopNCityReports {
         return cities;
     }
 
+    /**
+     * Issue #43: Top N Populated Cities in a Selected District.
+     *
+     * Retrieves the top N most populated cities in a selected
+     * district, ordered by population from largest to smallest.
+     *
+     * @param connection Active database connection
+     * @param district Name of the selected district
+     * @param n Number of cities requested by the user
+     * @return List of the top N populated cities
+     * @throws SQLException If a database error occurs
+     */
+    public ArrayList<City> getTopNCitiesByDistrict(
+            Connection connection, String district, int n)
+            throws SQLException {
+
+        ArrayList<City> cities = new ArrayList<>();
+
+        // Validate the district and N value.
+        if (district == null || district.trim().isEmpty() || n <= 0) {
+            System.out.println("Invalid district or N value.");
+            return cities;
+        }
+
+        // Join city and country to retrieve the country name.
+        String sql =
+                "SELECT ci.ID, ci.Name, ci.CountryCode, " +
+                        "ci.District, ci.Population, " +
+                        "co.Name AS CountryName " +
+                        "FROM city ci " +
+                        "JOIN country co ON ci.CountryCode = co.Code " +
+                        "WHERE ci.District = ? " +
+                        "ORDER BY ci.Population DESC, ci.ID ASC " +
+                        "LIMIT ?";
+
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            // Set the selected district and requested N.
+            statement.setString(1, district);
+            statement.setInt(2, n);
+
+            // Execute the SQL query.
+            try (ResultSet rs = statement.executeQuery()) {
+
+                while (rs.next()) {
+
+                    // Create and populate a City object.
+                    City city = new City();
+
+                    city.setId(rs.getInt("ID"));
+                    city.setName(rs.getString("Name"));
+                    city.setCountryCode(
+                            rs.getString("CountryCode"));
+                    city.setDistrict(rs.getString("District"));
+                    city.setPopulation(rs.getInt("Population"));
+
+                    // Create the associated Country object.
+                    Country country = new Country();
+                    country.setName(rs.getString("CountryName"));
+
+                    // Associate the country with the city.
+                    // Prevents NullPointerException when printing.
+                    city.setCountry(country);
+
+                    // Add the city to the result list.
+                    cities.add(city);
+                }
+            }
+        }
+
+        return cities;
+    }
 
 }
