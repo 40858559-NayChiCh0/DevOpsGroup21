@@ -216,4 +216,50 @@ public class LookUp_Population {
         }
     }
 
+    /**
+     * Retrieves the population of a selected city.
+     *
+     * @param city Name of the selected city
+     * @param connection Active database connection
+     */
+    public static void getCityPopulation(String city, Connection connection) {
+
+        String sql = """
+                SELECT Name, Population
+                FROM city
+                WHERE Name = ?
+                """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, city);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                System.out.println("\nCITY POPULATION");
+                System.out.println("-------------------------------------------");
+                System.out.printf("%-30s %20s%n", "City", "Population");
+                System.out.println("-------------------------------------------");
+
+                if (rs.next()) {
+                    String cityName = rs.getString("Name");
+                    long population = rs.getLong("Population");
+
+                    System.out.printf("%-30s %,20d%n",
+                            cityName, population);
+                } else {
+                    System.out.println(
+                            "No population data found for city: " + city);
+                }
+
+                System.out.println("-------------------------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.err.println(
+                    "Error generating city population: " + e.getMessage());
+        }
+    }
+
+
 }

@@ -62,6 +62,8 @@ public class Main {
             LookUp_Population.getRegionPopulation("Southeast Asia", connection);
             LookUp_Population.getCountryPopulation("Myanmar" , connection);
             LookUp_Population.getDistrictPopulation("California", connection);
+            LookUp_Population.getCityPopulation("London", connection);
+
 
             // Language report.
             System.out.println("\nREPORT: Language Speakers Report");
