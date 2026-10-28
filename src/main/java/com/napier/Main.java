@@ -26,9 +26,12 @@ public class Main {
                 // Issue #51: Region report
                 report.generateRegionReport();
 
+                // Issue #52: Country report
+                report.generateCountryReport();
+
             } else {
 
-                System.out.println(
+                System.err.println(
                         "Database connection is invalid.");
             }
 
