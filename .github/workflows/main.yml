@@ -31,7 +31,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Unit Tests
-        run: mvn -B -Dtest=com.napier.MainTest test
+        run: mvn -B test
 
   Build:
     name: Build and Start Using docker-compose
