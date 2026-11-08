@@ -1,14 +1,15 @@
 package com.napier;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CityTest {
+    City city = new City();
 
     @Test
     void testCityProperties(){
-        City city = new City();
         city.setId(1);
         city.setDistrict("Rangoon");
         city.setCountryCode("MMR");
@@ -22,4 +23,11 @@ class CityTest {
         assertEquals(city.getPopulation(), 10000);
     }
 
+    @Test
+    void testCountryAssociation(){
+        Country country = new Country();
+        country.setName("Myanmar");
+        city.setCountry(country);
+        assertEquals("Myanmar",city.getCountry().getName());
+    }
 }
