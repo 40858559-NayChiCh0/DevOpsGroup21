@@ -77,12 +77,29 @@ public class CityReports {
      * @param cities List of cities.
      * @param title Title of the report.
      */
+
     public void printCityReport(ArrayList<City> cities, String title) {
 
         System.out.println(
                 "\n========== " + title + " ==========");
 
+        // Handle null or empty list
         if (cities == null || cities.isEmpty()) {
+            System.out.println("No cities found.");
+            return;
+        }
+
+        // Count valid city objects
+        int validCityCount = 0;
+
+        for (City city : cities) {
+            if (city != null) {
+                validCityCount++;
+            }
+        }
+
+        // Handle list containing only null objects
+        if (validCityCount == 0) {
             System.out.println("No cities found.");
             return;
         }
@@ -95,18 +112,31 @@ public class CityReports {
 
         for (City city : cities) {
 
+            // Skip null City objects
+            if (city == null) {
+                continue;
+            }
+
+            // Handle null Country objects
+            String countryName = "Unknown";
+
+            if (city.getCountry() != null &&
+                    city.getCountry().getName() != null) {
+                countryName = city.getCountry().getName();
+            }
+
             System.out.printf(
                     "%-25.25s %-25.25s %-25.25s %,15d%n",
-                    city.getName(),
-                    city.getCountry().getName(),
-                    city.getDistrict(),
-                    city.getPopulation());
+                    city.getName() == null ? "Unknown" : city.getName(),
+                    countryName,
+                    city.getDistrict() == null ? "Unknown" : city.getDistrict(),
+                    city.getPopulation()
+            );
         }
 
         System.out.println("-".repeat(95));
-        System.out.println("Total cities: " + cities.size());
+        System.out.println("Total cities: " + validCityCount);
     }
-
 
     /**
      * Issue 35: All cities in a selected continent
