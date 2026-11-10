@@ -42,6 +42,64 @@ public class Main {
                     "Cities in Asia");
             cityReports.printCityReport(cityReports.getCitiesByRegion(connection, "Southeast Asia"),
                     "Cities in Southeast Asia");
+            cityReports.printCityReport(cityReports.getCitiesByCountry(connection, "Myanmar"),
+                    "Cities in Myanmar");
+            cityReports.printCityReport(cityReports.getCitiesByDistrict(connection, "Mandalay"),
+                    "Cities in Mandalay");
+
+
+            // ================================================
+            // TOP N POPULATED CITY REPORTS
+            // GitHub Issues #39 - #43
+            // ================================================
+
+            System.out.println("\nREPORT: Top N Populated Cities Reports");
+            System.out.println("======================================");
+
+            TopNCityReports topNCityReports = new TopNCityReports();
+
+            // Example report parameters.
+            String continent = "Asia";
+            String region = "Southeast Asia";
+            String countryName = "Myanmar";
+            String district = "California";
+            int topN = 5;
+
+            // Issue #39: Top N Populated Cities in the World
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesInWorld(
+                            connection, topN),
+                    "Top " + topN + " Populated Cities in the World"
+            );
+
+            // Issue #40: Top N Populated Cities in a Continent
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByContinent(
+                            connection, continent, topN),
+                    "Top " + topN + " Populated Cities in " + continent
+            );
+
+            // Issue #41: Top N Populated Cities in a Region
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByRegion(
+                            connection, region, topN),
+                    "Top " + topN + " Populated Cities in " + region
+            );
+
+            // Issue #42: Top N Populated Cities in a Country
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByCountry(
+                            connection, countryName, topN),
+                    "Top " + topN + " Populated Cities in " + countryName
+            );
+
+            // Issue #43: Top N Populated Cities in a District
+            cityReports.printCityReport(
+                    topNCityReports.getTopNCitiesByDistrict(
+                            connection, district, topN),
+                    "Top " + topN + " Populated Cities in " + district
+            );
+
 
             // Capital city reports.
             System.out.println("\nREPORT: Capital Cities Reports");
