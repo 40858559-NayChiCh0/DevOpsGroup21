@@ -36,7 +36,6 @@ public class CountryReportsUnitTest {
         assertTrue(output.contains("Test Country"));
         assertTrue(output.contains("1,000,000"));
     }
-
     // Test 2: Print empty results
     @Test
     void testPrintWithEmptyData() throws Exception {
