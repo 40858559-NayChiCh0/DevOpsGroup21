@@ -25,7 +25,6 @@ public class CountryReportsUnitTest {
         assertTrue(output.contains("Name") ||
                 output.contains("Error"));
     }
-
     // Test 2: Get countries by continent
     @Test
     void testGetCountriesByContinent() {
