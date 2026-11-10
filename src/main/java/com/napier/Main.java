@@ -58,11 +58,21 @@ public class Main {
             System.out.println("\nREPORT: Population LookUp Reports");
             System.out.println("\n=================================");
             LookUp_Population.getWorldPopulation(connection);
-            LookUp_Population.getContinentPopulation("Asia", connection);
-            LookUp_Population.getRegionPopulation("Southeast Asia", connection);
-            LookUp_Population.getCountryPopulation("Myanmar" , connection);
-            LookUp_Population.getDistrictPopulation("California", connection);
-            LookUp_Population.getCityPopulation("London", connection);
+
+            LookUp_Population.getContinentPopulation(
+                    "Asia", connection);
+
+            LookUp_Population.getRegionPopulation(
+                    "Southeast Asia", connection);
+
+            LookUp_Population.getCountryPopulation(
+                    "Myanmar", connection);
+
+            LookUp_Population.getDistrictPopulation(
+                    "California", connection);
+
+            LookUp_Population.getCityPopulation(
+                    "London", connection);
 
 
             // Language report.
