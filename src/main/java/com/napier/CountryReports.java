@@ -1,3 +1,4 @@
+
 package com.napier;
 
 import java.sql.Connection;
@@ -6,6 +7,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CountryReports {
+
+    // Common print method for all country reports
+    public static void print(ResultSet results, String... columns)
+            throws SQLException {
+
+        // Print column headings
+        for (String column : columns) {
+            System.out.printf("%-35s", column);
+        }
+
+        System.out.println();
+
+        // Print report data
+        while (results.next()) {
+
+            for (String column : columns) {
+
+                Object value = results.getObject(column);
+
+                if (value instanceof Number) {
+                    System.out.printf("%-35s",
+                            String.format("%,d",
+                                    ((Number) value).longValue()));
+                } else {
+                    System.out.printf("%-35s", value);
+                }
+            }
+
+            System.out.println();
+        }
+    }
+
     // Report 1: All countries in the world by population
     public static void getAllCountries() {
 
@@ -20,26 +53,21 @@ public class CountryReports {
                      connection.prepareStatement(sql);
              ResultSet results = statement.executeQuery()) {
 
-            System.out.printf("%-35s %15s%n",
-                    "Country", "Population");
-
-
-            while (results.next()) {
-                String name = results.getString("Name");
-                int population = results.getInt("Population");
-
-                System.out.printf("%-35s %,15d%n",
-                        name, population);
-            }
+            print(results, "Name", "Population");
 
         } catch (SQLException e) {
-            System.err.println(
-                    "Error retrieving countries: " + e.getMessage());
+            System.err.println("Error retrieving countries: "
+                    + e.getMessage());
         }
-
     }
+
     // Report 2: Countries in a continent by population
     public static void getCountriesByContinent(String continent) {
+
+        if (continent == null || continent.trim().isEmpty()) {
+            System.out.println("Invalid continent.");
+            return;
+        }
 
         String sql = """
                 SELECT Name, Continent, Population
@@ -56,39 +84,22 @@ public class CountryReports {
 
             try (ResultSet results = statement.executeQuery()) {
 
-                System.out.printf("%-35s %-20s %15s%n",
-                        "Country", "Continent", "Population");
-
-
-                boolean found = false;
-
-                while (results.next()) {
-                    found = true;
-
-                    String name = results.getString("Name");
-                    String countryContinent =
-                            results.getString("Continent");
-                    int population = results.getInt("Population");
-
-                    System.out.printf("%-35s %-20s %,15d%n",
-                            name, countryContinent, population);
-                }
-
-                if (!found) {
-                    System.out.println(
-                            "No countries found for continent: "
-                                    + continent);
-                }
+                print(results, "Name", "Continent", "Population");
             }
 
         } catch (SQLException e) {
-            System.err.println(
-                    "Error retrieving countries by continent: "
-                            + e.getMessage());
+            System.err.println("Error retrieving countries by continent: "
+                    + e.getMessage());
         }
     }
+
     // Report 3: Countries in a selected region by population
     public static void getCountriesByRegion(String region) {
+
+        if (region == null || region.trim().isEmpty()) {
+            System.out.println("Invalid region.");
+            return;
+        }
 
         String sql = """
                 SELECT Name, Region, Population
@@ -105,148 +116,7 @@ public class CountryReports {
 
             try (ResultSet results = statement.executeQuery()) {
 
-                System.out.printf("%-35s %-30s %15s%n",
-                        "Country", "Region", "Population");
-
-
-
-                boolean found = false;
-
-                while (results.next()) {
-                    found = true;
-
-                    String name = results.getString("Name");
-                    String countryRegion = results.getString("Region");
-                    int population = results.getInt("Population");
-
-                    System.out.printf("%-35s %-30s %,15d%n",
-                            name, countryRegion, population);
-                }
-
-                if (!found) {
-                    System.out.println(
-                            "No countries found in region: " + region);
-                }
-            }
-
-        } catch (SQLException e) {
-            System.err.println(
-                    "Error retrieving countries by region: "
-                            + e.getMessage());
-        }
-    }
-    // Display the top N most populated countries in the world
-    public static void getTopNPopulatedCountries(int n) {
-        String sql = "SELECT Code, Name, Population " +
-                "FROM country " +
-                "ORDER BY Population DESC " +
-                "LIMIT ?";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            if (n <= 0) {
-                System.out.println("N must be greater than zero.");
-                return;
-            }
-
-            pstmt.setInt(1, n);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                System.out.println("\nTop " + n + " Populated Countries");
-                System.out.printf("%-10s %-35s %15s%n",
-                        "Code", "Country", "Population");
-
-                while (rs.next()) {
-                    System.out.printf("%-10s %-35s %,15d%n",
-                            rs.getString("Code"),
-                            rs.getString("Name"),
-                            rs.getLong("Population"));
-                }
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error retrieving top populated countries: "
-                    + e.getMessage());
-        }
-    }
-    // Display the top N most populated countries in a continent
-    public static void getTopNPopulatedCountriesByContinent(
-            String continent, int n) {
-
-        if (n <= 0) {
-            System.out.println("N must be greater than zero.");
-            return;
-        }
-
-        String sql = "SELECT Code, Name, Continent, Population " +
-                "FROM country " +
-                "WHERE Continent = ? " +
-                "ORDER BY Population DESC " +
-                "LIMIT ?";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setString(1, continent);
-            pstmt.setInt(2, n);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                System.out.println("\nTop " + n +
-                        " Populated Countries in " + continent);
-
-                System.out.printf("%-10s %-35s %-20s %15s%n",
-                        "Code", "Country", "Continent", "Population");
-
-                while (rs.next()) {
-                    System.out.printf("%-10s %-35s %-20s %,15d%n",
-                            rs.getString("Code"),
-                            rs.getString("Name"),
-                            rs.getString("Continent"),
-                            rs.getLong("Population"));
-                }
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error retrieving countries by continent: "
-                    + e.getMessage());
-        }
-    }
-
-    public static void getTopNPopulatedCountriesByRegion(
-            String region, int n) {
-
-        if (n <= 0) {
-            System.out.println("N must be greater than zero.");
-            return;
-        }
-
-        String sql = "SELECT Code, Name, Region, Population " +
-                "FROM country " +
-                "WHERE Region = ? " +
-                "ORDER BY Population DESC " +
-                "LIMIT ?";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-
-            pstmt.setString(1, region);
-            pstmt.setInt(2, n);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                System.out.println("\nTop " + n +
-                        " Populated Countries in " + region);
-
-                System.out.printf("%-10s %-35s %-25s %15s%n",
-                        "Code", "Country", "Region", "Population");
-
-                while (rs.next()) {
-                    System.out.printf("%-10s %-35s %-25s %,15d%n",
-                            rs.getString("Code"),
-                            rs.getString("Name"),
-                            rs.getString("Region"),
-                            rs.getLong("Population"));
-                }
+                print(results, "Name", "Region", "Population");
             }
 
         } catch (SQLException e) {
@@ -255,4 +125,139 @@ public class CountryReports {
         }
     }
 
+    // Report 4: Top N most populated countries in the world
+    public static void getTopNPopulatedCountries(int n) {
+
+        if (n <= 0) {
+            System.out.println("N must be greater than zero.");
+            return;
+        }
+
+        String sql = """
+                SELECT Code, Name, Population
+                FROM country
+                ORDER BY Population DESC
+                LIMIT ?
+                """;
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, n);
+
+            try (ResultSet results = statement.executeQuery()) {
+
+                print(results, "Code", "Name", "Population");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving top populated countries: "
+                    + e.getMessage());
+        }
+    }
+
+    // Report 5: Top N most populated countries in a continent
+    public static void getTopNPopulatedCountriesByContinent(
+            String continent, int n) {
+
+        if (continent == null || continent.trim().isEmpty()) {
+            System.out.println("Invalid continent.");
+            return;
+        }
+
+        if (n <= 0) {
+            System.out.println("N must be greater than zero.");
+            return;
+        }
+
+        String sql = """
+                SELECT Code, Name, Continent, Population
+                FROM country
+                WHERE Continent = ?
+                ORDER BY Population DESC
+                LIMIT ?
+                """;
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, continent);
+            statement.setInt(2, n);
+
+            try (ResultSet results = statement.executeQuery()) {
+
+                print(results, "Code", "Name",
+                        "Continent", "Population");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving countries by continent: "
+                    + e.getMessage());
+        }
+    }
+
+    // Report 6: Top N most populated countries in a region
+    public static void getTopNPopulatedCountriesByRegion(
+            String region, int n) {
+
+        if (region == null || region.trim().isEmpty()) {
+            System.out.println("Invalid region.");
+            return;
+        }
+
+        if (n <= 0) {
+            System.out.println("N must be greater than zero.");
+            return;
+        }
+
+        String sql = """
+                SELECT Code, Name, Region, Population
+                FROM country
+                WHERE Region = ?
+                ORDER BY Population DESC
+                LIMIT ?
+                """;
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, region);
+            statement.setInt(2, n);
+
+            try (ResultSet results = statement.executeQuery()) {
+
+                print(results, "Code", "Name",
+                        "Region", "Population");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving countries by region: "
+                    + e.getMessage());
+        }
+    }
+
+    // Common method to execute all country reports
+    public static void printAllReports() {
+
+        System.out.println("\n===== Report 1: All Countries =====");
+        getAllCountries();
+
+        System.out.println("\n===== Report 2: Countries by Continent =====");
+        getCountriesByContinent("Asia");
+
+        System.out.println("\n===== Report 3: Countries by Region =====");
+        getCountriesByRegion("Southeast Asia");
+
+        System.out.println("\n===== Report 4: Top 10 Populated Countries =====");
+        getTopNPopulatedCountries(10);
+
+        System.out.println("\n===== Report 5: Top 10 Countries by Continent =====");
+        getTopNPopulatedCountriesByContinent("Asia", 10);
+
+        System.out.println("\n===== Report 6: Top 10 Countries by Region =====");
+        getTopNPopulatedCountriesByRegion("Southeast Asia", 10);
+    }
 }
