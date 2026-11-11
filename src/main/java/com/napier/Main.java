@@ -5,6 +5,10 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
+        Main.invokeMethod();
+    }
+
+    private static void invokeMethod(){
         try (Connection connection = DBConnection.getConnection()) {
             if (!connection.isValid(2)) {
                 System.err.println("Database connection is invalid.");
