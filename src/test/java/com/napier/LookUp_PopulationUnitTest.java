@@ -35,7 +35,6 @@ public class LookUp_PopulationUnitTest {
     static void setUp() throws Exception {
         connection = DBConnection.getConnection();
     }
-
     // Close database connection after tests
     @AfterAll
     static void tearDown() throws Exception {
