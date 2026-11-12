@@ -75,7 +75,8 @@ jobs:
           DB_NAME: world
           DB_USER: devops
           DB_PASSWORD: devops
-        run: mvn -Dtest=com.napier.MainIntegrationTest test
+        run: mvn -B -Dgroups=integration test
+
 
       - name: Show MySQL Logs on Failure
         if: failure()
