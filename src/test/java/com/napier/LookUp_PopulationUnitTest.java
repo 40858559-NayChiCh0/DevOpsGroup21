@@ -30,7 +30,6 @@ public class LookUp_PopulationUnitTest {
 
         return output.toString();
     }
-
     // Connect to database before tests
     @BeforeAll
     static void setUp() throws Exception {
