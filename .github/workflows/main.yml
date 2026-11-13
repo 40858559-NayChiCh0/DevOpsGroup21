@@ -30,28 +30,69 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
 
-      - name: Validate Docker Compose
-        run: docker compose -f docker-compose.yml config --quiet
+      - name: Unit Tests
+        run: mvn -B -DexcludedGroups=integration test
+
+
+  IntegrationTests:
+    name: Integration Tests
+    runs-on: ubuntu-26.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
 
       - name: Start MySQL Database
-        run: docker compose up -d --wait db
+        run: docker compose up -d db
 
-      - name: Run Unit Tests
-        run: mvn -B test
-
-      - name: View Database Logs
-        if: always()
+      - name: Wait for MySQL Database
         run: |
-          docker compose ps -a
-          docker compose logs --no-color db
+          echo "Waiting for the world database..."
+          
+          for i in {1..30}; do
+            if docker compose exec -T db sh -c \
+              'mysql -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" -e "USE world; SELECT COUNT(*) FROM city;"' \
+              > /dev/null 2>&1; then
+          
+              echo "MySQL database is ready!"
+              exit 0
+            fi
+          
+            echo "Attempt $i: MySQL not ready yet"
+            sleep 3
+          done
+          
+          docker compose logs db
+          exit 1
 
-      - name: Clean Up
+      - name: Integration Tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: '33060'
+          DB_NAME: world
+          DB_USER: devops
+          DB_PASSWORD: devops
+        run: mvn -B -Dgroups=integration test
+
+      - name: Show MySQL Logs on Failure
+        if: failure()
+        run: docker compose logs db
+
+      - name: Stop MySQL Database
         if: always()
-        run: docker compose down -v
+        run: docker compose down
 
   Build:
     name: Build and Start Using docker-compose
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
     needs: UnitTests
 
     steps:
@@ -79,9 +120,9 @@ jobs:
       - name: View Container Logs
         if: always()
         run: |
-          docker compose ps -a
-          docker compose logs --no-color app db
+          docker compose -f docker-compose.yml ps -a
+          docker compose -f docker-compose.yml logs --no-color app db
 
       - name: Clean Up
         if: always()
-        run: docker compose down -v
+        run: docker compose -f docker-compose.yml down -v
