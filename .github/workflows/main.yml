@@ -15,6 +15,7 @@ on:
 
 jobs:
 
+
   UnitTests:
     name: Unit Tests
     runs-on: ubuntu-24.04
@@ -32,8 +33,49 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      # Start MySQL because LookUp_PopulationUnitTest
+      # uses DBConnection.getConnection()
+      - name: Start MySQL Database
+        run: docker compose up -d db
+
+      - name: Wait for MySQL Database
+        run: |
+          echo "Waiting for the world database..."
+
+          for i in {1..30}; do
+            if docker compose exec -T db sh -c \
+              'mysql -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" -e "USE world; SELECT COUNT(*) FROM city;"' \
+              > /dev/null 2>&1; then
+
+              echo "MySQL database is ready!"
+              exit 0
+            fi
+
+            echo "Attempt $i: MySQL not ready yet"
+            sleep 3
+          done
+
+          docker compose logs db
+          exit 1
+
+      # Run unit tests with database configuration
       - name: Run Unit Tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: '33060'
+          DB_NAME: world
+          DB_USER: devops
+          DB_PASSWORD: devops
         run: mvn -B -DexcludedGroups=integration test
+
+      - name: Show MySQL Logs on Failure
+        if: failure()
+        run: docker compose logs db
+
+      - name: Stop MySQL Database
+        if: always()
+        run: docker compose down
+
 
 
   IntegrationTests:
@@ -94,9 +136,7 @@ jobs:
         run: docker compose down
 
 
-  # ================================================
-  # BUILD AND DOCKER COMPOSE
-  # ================================================
+
   Build:
     name: Build and Start Using docker-compose
     runs-on: ubuntu-24.04
