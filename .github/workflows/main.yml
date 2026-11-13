@@ -16,7 +16,7 @@ on:
 jobs:
   UnitTests:
     name: Unit Tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
 
   Build:
     name: Build and Start Using docker-compose
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: UnitTests
 
     steps:
