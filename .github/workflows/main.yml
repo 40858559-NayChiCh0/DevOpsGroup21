@@ -30,8 +30,24 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
 
-      - name: Unit Tests
+      - name: Validate Docker Compose
+        run: docker compose -f docker-compose.yml config --quiet
+
+      - name: Start MySQL Database
+        run: docker compose up -d --wait db
+
+      - name: Run Unit Tests
         run: mvn -B test
+
+      - name: View Database Logs
+        if: always()
+        run: |
+          docker compose ps -a
+          docker compose logs --no-color db
+
+      - name: Clean Up
+        if: always()
+        run: docker compose down -v
 
   Build:
     name: Build and Start Using docker-compose
@@ -63,9 +79,9 @@ jobs:
       - name: View Container Logs
         if: always()
         run: |
-          docker compose -f docker-compose.yml ps -a
-          docker compose -f docker-compose.yml logs --no-color app db
+          docker compose ps -a
+          docker compose logs --no-color app db
 
       - name: Clean Up
         if: always()
-        run: docker compose -f docker-compose.yml down -v
+        run: docker compose down -v
