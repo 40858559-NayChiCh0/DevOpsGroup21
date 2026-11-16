@@ -189,6 +189,6 @@ public class PopulationReportIntegrationTest {
 
         assertTrue(continentIndex < regionIndex);
         assertTrue(regionIndex < countryIndex);
-        //Implemented by htss
+        //Implemented by Han Thar Soe San
     }
 }
