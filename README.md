@@ -1,4 +1,17 @@
 # DevOpsGroup21
+This is group repository for Group 21.
+
+![workflow](https://github.com/40858559-NayChiCh0/DevOpsGroup21/actions/workflows/main.yml/badge.svg)
+
+[![LICENSE](https://img.shields.io/github/license/40858559-NayChiCh0/DevOpsGroup21.svg?style=flat-square)](https://github.com/40858559-NayChiCh0/DevOpsGroup21/blob/master/LICENSE)
+
+[![Releases](https://img.shields.io/github/v/release/40858559-NayChiCh0/DevOpsGroup21?include_prereleases&style=flat-square)](https://github.com/40858559-NayChiCh0/DevOpsGroup21/releases)
+
+# Master
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40858559-NayChiCh0/DevOpsGroup21/main.yml?branch=master)
+
+# Develop
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40858559-NayChiCh0/DevOpsGroup21/main.yml?branch=develop)
 
 ## Team Members
 
