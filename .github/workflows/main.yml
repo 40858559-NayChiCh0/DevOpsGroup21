@@ -9,16 +9,19 @@ on:
 
   pull_request:
     branches:
-      - develop
       - master
+      - develop
+
+permissions:
+  contents: read
 
 jobs:
-  UnitTests:
-    name: Unit Tests
-    runs-on: ubuntu-26.04
+  Tests:
+    name: Unit Tests, Integration Tests and Coverage
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -27,101 +30,42 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '25'
-          distribution: 'temurin'
+          distribution: temurin
+          cache: maven
 
-      - name: Unit Tests
-        run: mvn -B -DexcludedGroups=integration test
-
-
-  IntegrationTests:
-    name: Integration Tests
-    runs-on: ubuntu-26.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Set up JDK 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'temurin'
+      - name: Validate Docker Compose
+        run: docker compose config --quiet
 
       - name: Start MySQL Database
-        run: docker compose up -d db
+        run: docker compose up -d --wait db
 
-      - name: Wait for MySQL Database
+      - name: Check Database
+        run: docker compose ps
+
+      - name: Verify World Database
         run: |
-          echo "Waiting for the world database..."
-          
-          for i in {1..30}; do
-            if docker compose exec -T db sh -c \
-              'mysql -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" -e "USE world; SELECT COUNT(*) FROM city;"' \
-              > /dev/null 2>&1; then
-          
-              echo "MySQL database is ready!"
-              exit 0
-            fi
-          
-            echo "Attempt $i: MySQL not ready yet"
-            sleep 3
-          done
-          
-          docker compose logs db
-          exit 1
+          docker compose exec -T db \
+            mysql -uroot -pdevops \
+            -e "SELECT COUNT(*) FROM world.country;"
 
-      - name: Integration Tests
-        env:
-          DB_HOST: localhost
-          DB_PORT: '33061'
-          DB_NAME: world
-          DB_USER: devops
-          DB_PASSWORD: devops
-        run: mvn -B -Dgroups=integration test
+      - name: Run All Tests
+        run: mvn -B clean verify
 
-      - name: Show MySQL Logs on Failure
+      - name: Check JaCoCo Report
+        run: test -s target/site/jacoco/jacoco.xml
+
+      - name: Upload Coverage to Codecov
+        if: success()
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./target/site/jacoco/jacoco.xml
+          fail_ci_if_error: false
+
+      - name: Show Database Logs on Failure
         if: failure()
         run: docker compose logs db
 
-      - name: Stop MySQL Database
-        if: always()
-        run: docker compose down
-
-  Build:
-    name: Build and Start Using docker-compose
-    runs-on: ubuntu-24.04
-    needs: UnitTests
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 25
-        uses: actions/setup-java@v4
-        with:
-          java-version: '25'
-          distribution: 'temurin'
-
-      - name: Package with Maven
-        run: mvn -B clean package -DskipTests
-
-      - name: Validate Docker Compose
-        run: docker compose -f docker-compose.yml config --quiet
-
-      - name: Build and Run Docker Compose
-        run: |
-          docker compose -f docker-compose.yml up \
-            --build \
-            --exit-code-from app
-
-      - name: View Container Logs
-        if: always()
-        run: |
-          docker compose -f docker-compose.yml ps -a
-          docker compose -f docker-compose.yml logs --no-color app db
-
       - name: Clean Up
         if: always()
-        run: docker compose -f docker-compose.yml down -v
+        run: docker compose down
