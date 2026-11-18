@@ -18,7 +18,7 @@ permissions:
 jobs:
   Tests:
     name: Unit Tests, Integration Tests and Coverage
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout Repository
