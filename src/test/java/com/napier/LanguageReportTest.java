@@ -58,6 +58,7 @@ public class LanguageReportTest {
                 (PreparedStatement) Proxy.newProxyInstance(
                         PreparedStatement.class.getClassLoader(),
                         new Class<?>[]{PreparedStatement.class},
+
                         (proxy, method, args) -> {
 
                             switch (method.getName()) {
