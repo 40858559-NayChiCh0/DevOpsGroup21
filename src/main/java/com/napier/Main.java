@@ -16,6 +16,7 @@ public class Main {
             }
             System.out.println("Database connection succeeded.");
 
+
             // Country reports (these methods manage their own connections).
             System.out.println("\nREPORT: Country Reports");
             System.out.println("\n===========================");
@@ -116,7 +117,13 @@ public class Main {
             capitalReports.getCapitalCitiesByContinent("Asia");
             System.out.println("\nCapital Cities in Southeast Asia");
             capitalReports.getCapitalCitiesByRegion("Southeast Asia");
-
+            System.out.println("\nTop 10 Capital Cities in the World");
+            capitalReports.getTopNCapitalCities(10);
+            System.out.println("\nTop 5 Capital Cities in Asia");
+            capitalReports.getTopNCapitalCitiesByContinent("Asia", 5);
+            System.out.println("\nTop 3 Capital Cities in Southeast Asia");
+            capitalReports.getTopNCapitalCitiesByRegion(
+                    "Southeast Asia", 3);
 
             // Population breakdown report by continent
             System.out.println("\nREPORT: Population Breakdown");
