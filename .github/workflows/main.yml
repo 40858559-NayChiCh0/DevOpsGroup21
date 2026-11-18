@@ -14,9 +14,11 @@ on:
       - master
 
 jobs:
+
+
   UnitTests:
     name: Unit Tests
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -29,29 +31,56 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
+          cache: maven
 
-      # Run unit tests only.
-      # Exclude integration-tagged tests and the
-      # PopulationReportIntegrationTest class.
-      - name: Unit Tests
+      # Start MySQL because LookUp_PopulationUnitTest
+      # uses DBConnection.getConnection()
+      - name: Start MySQL Database
+        run: docker compose up -d db
+
+      - name: Wait for MySQL Database
         run: |
-          mvn -B clean test \
-            -DexcludedGroups=integration \
-            -Dtest='*,!PopulationReportIntegrationTest'
+          echo "Waiting for the world database..."
 
-      - name: Upload Unit Test Coverage
-        if: success()
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./target/site/jacoco/jacoco.xml
-          flags: unit-tests
-          fail_ci_if_error: false
-          verbose: true
+          for i in {1..30}; do
+            if docker compose exec -T db sh -c \
+              'mysql -h 127.0.0.1 -uroot -p"$MYSQL_ROOT_PASSWORD" -e "USE world; SELECT COUNT(*) FROM city;"' \
+              > /dev/null 2>&1; then
+
+              echo "MySQL database is ready!"
+              exit 0
+            fi
+
+            echo "Attempt $i: MySQL not ready yet"
+            sleep 3
+          done
+
+          docker compose logs db
+          exit 1
+
+      # Run unit tests with database configuration
+      - name: Run Unit Tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: '33060'
+          DB_NAME: world
+          DB_USER: devops
+          DB_PASSWORD: devops
+        run: mvn -B -DexcludedGroups=integration test
+
+      - name: Show MySQL Logs on Failure
+        if: failure()
+        run: docker compose logs db
+
+      - name: Stop MySQL Database
+        if: always()
+        run: docker compose down
+
+
 
   IntegrationTests:
     name: Integration Tests
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -64,6 +93,7 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
+          cache: maven
 
       - name: Start MySQL Database
         run: docker compose up -d db
@@ -85,30 +115,17 @@ jobs:
             sleep 3
           done
 
-          echo "MySQL failed to become ready."
           docker compose logs db
           exit 1
 
-      - name: Integration Tests
+      - name: Run Integration Tests
         env:
           DB_HOST: localhost
           DB_PORT: '33060'
           DB_NAME: world
           DB_USER: devops
           DB_PASSWORD: devops
-        run: |
-          mvn -B clean test \
-            -Dtest=PopulationReportIntegrationTest
-
-      - name: Upload Integration Test Coverage
-        if: success()
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./target/site/jacoco/jacoco.xml
-          flags: integration-tests
-          fail_ci_if_error: false
-          verbose: true
+        run: mvn -B -Dgroups=integration test
 
       - name: Show MySQL Logs on Failure
         if: failure()
@@ -117,6 +134,8 @@ jobs:
       - name: Stop MySQL Database
         if: always()
         run: docker compose down
+
+
 
   Build:
     name: Build and Start Using docker-compose
@@ -135,6 +154,7 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
+          cache: maven
 
       - name: Package with Maven
         run: mvn -B clean package -DskipTests

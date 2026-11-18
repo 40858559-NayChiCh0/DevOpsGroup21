@@ -36,6 +36,7 @@ public class Main {
             CountryReports.getTopNPopulatedCountriesByRegion(
                     "Southeast Asia", 10);
 
+
             // City reports.
             System.out.println("\nREPORT: City Reports");
             System.out.println("\n===========================");
@@ -129,8 +130,22 @@ public class Main {
             System.out.println("\nREPORT: Population LookUp Reports");
             System.out.println("\n=================================");
             LookUp_Population.getWorldPopulation(connection);
-            LookUp_Population.getContinentPopulation("Asia", connection);
-            LookUp_Population.getRegionPopulation("Southeast Asia", connection);
+
+            LookUp_Population.getContinentPopulation(
+                    "Asia", connection);
+
+            LookUp_Population.getRegionPopulation(
+                    "Southeast Asia", connection);
+
+            LookUp_Population.getCountryPopulation(
+                    "Myanmar", connection);
+
+            LookUp_Population.getDistrictPopulation(
+                    "California", connection);
+
+            LookUp_Population.getCityPopulation(
+                    "London", connection);
+
 
             // Language report.
             System.out.println("\nREPORT: Language Speakers Report");

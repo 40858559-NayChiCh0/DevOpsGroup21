@@ -1,3 +1,4 @@
+
 package com.napier;
 
 import java.sql.Connection;
@@ -5,11 +6,44 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Retrieves and prints population reports.
+ */
 public class LookUp_Population {
 
     /**
+     * Common method to print population reports.
      *
-     * @param connection Active database connection
+     * @param name Name of the selected item.
+     * @param population Population value.
+     * @param title Report title.
+     * @param columnName Column heading.
+     */
+    public static void printPopulationReport(
+            String name, long population, String title, String columnName) {
+
+        System.out.println("\n========== " + title + " ==========");
+
+        if (name == null) {
+            System.out.println("No population data found.");
+            return;
+        }
+
+        System.out.printf(
+                "%-30s %20s%n",
+                columnName, "Population");
+
+        System.out.println("-".repeat(52));
+
+        System.out.printf(
+                "%-30s %,20d%n",
+                name, population);
+
+        System.out.println("-".repeat(52));
+    }
+
+    /**
+     * Retrieves the total population of the world.
      */
     public static void getWorldPopulation(Connection connection) {
 
@@ -21,33 +55,31 @@ public class LookUp_Population {
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
-            System.out.println("\nWORLD POPULATION");
-            System.out.println("-----------------------------------");
-
             if (rs.next()) {
-                long totalPopulation = rs.getLong("TotalPopulation");
-                System.out.printf("World Population: %,d%n", totalPopulation);
-            } else {
-                System.out.println("No population data found.");
+                printPopulationReport(
+                        "World",
+                        rs.getLong("TotalPopulation"),
+                        "WORLD POPULATION",
+                        "World");
             }
 
-            System.out.println("-----------------------------------");
-
         } catch (SQLException e) {
-            System.err.println("Error generating world population: " + e.getMessage());
+            throw new IllegalStateException(
+                    "Failed to retrieve world population.", e);
         }
     }
 
     /**
+     * Retrieves the total population of a selected continent.
      *
-     * @param continent Name of the selected continent
-     * @param connection Active database connection
+     * @param continent Selected continent.
+     * @param connection Database connection.
      */
-    public static void getContinentPopulation(String continent, Connection connection) {
+    public static void getContinentPopulation(
+            String continent, Connection connection) {
 
         String sql = """
-                SELECT Continent,
-                       SUM(Population) AS TotalPopulation
+                SELECT Continent, SUM(Population) AS TotalPopulation
                 FROM country
                 WHERE Continent = ?
                 GROUP BY Continent
@@ -59,42 +91,42 @@ public class LookUp_Population {
 
             try (ResultSet rs = stmt.executeQuery()) {
 
-                System.out.println("\nCONTINENT POPULATION QUERIES");
-                System.out.println("-------------------------------------------");
-                System.out.printf("%-20s %20s%n", "Continent", "Population");
-                System.out.println("-------------------------------------------");
-
                 if (rs.next()) {
-                    String continentName = rs.getString("Continent");
-                    long totalPopulation = rs.getLong("TotalPopulation");
-
-                    System.out.printf("%-20s %,20d%n", continentName, totalPopulation);
+                    printPopulationReport(
+                            rs.getString("Continent"),
+                            rs.getLong("TotalPopulation"),
+                            "CONTINENT POPULATION",
+                            "Continent");
                 } else {
-                    System.out.println("No population data found for continent: " + continent);
+                    printPopulationReport(
+                            null, 0,
+                            "CONTINENT POPULATION",
+                            "Continent");
                 }
-
-                System.out.println("-------------------------------------------");
             }
 
         } catch (SQLException e) {
-            System.err.println("Error generating continent population queries: " + e.getMessage());
+            throw new IllegalStateException(
+                    "Failed to retrieve continent population: "
+                            + continent, e);
         }
     }
+
     /**
      * Retrieves the total population of a selected region.
      *
-     * @param region Name of the selected region
-     * @param connection Active database connection
+     * @param region Selected region.
+     * @param connection Database connection.
      */
-    public static void getRegionPopulation(String region, Connection connection) {
+    public static void getRegionPopulation(
+            String region, Connection connection) {
 
         String sql = """
-            SELECT Region,
-                   SUM(Population) AS TotalPopulation
-            FROM country
-            WHERE Region = ?
-            GROUP BY Region
-            """;
+                SELECT Region, SUM(Population) AS TotalPopulation
+                FROM country
+                WHERE Region = ?
+                GROUP BY Region
+                """;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
@@ -102,28 +134,151 @@ public class LookUp_Population {
 
             try (ResultSet rs = stmt.executeQuery()) {
 
-                System.out.println("\nREGION POPULATION");
-                System.out.println("-------------------------------------------");
-                System.out.printf("%-20s %20s%n", "Region", "Population");
-                System.out.println("-------------------------------------------");
-
                 if (rs.next()) {
-                    String regionName = rs.getString("Region");
-                    long totalPopulation = rs.getLong("TotalPopulation");
-
-                    System.out.printf("%-20s %,20d%n",
-                            regionName, totalPopulation);
+                    printPopulationReport(
+                            rs.getString("Region"),
+                            rs.getLong("TotalPopulation"),
+                            "REGION POPULATION",
+                            "Region");
                 } else {
-                    System.out.println(
-                            "No population data found for region: " + region);
+                    printPopulationReport(
+                            null, 0,
+                            "REGION POPULATION",
+                            "Region");
                 }
-
-                System.out.println("-------------------------------------------");
             }
 
         } catch (SQLException e) {
-            System.err.println(
-                    "Error generating region population: " + e.getMessage());
+            throw new IllegalStateException(
+                    "Failed to retrieve region population: "
+                            + region, e);
+        }
+    }
+
+    /**
+     * Retrieves the population of a selected country.
+     *
+     * @param country Selected country.
+     * @param connection Database connection.
+     */
+    public static void getCountryPopulation(
+            String country, Connection connection) {
+
+        String sql = """
+                SELECT Name, Population
+                FROM country
+                WHERE Name = ?
+                """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, country);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    printPopulationReport(
+                            rs.getString("Name"),
+                            rs.getLong("Population"),
+                            "COUNTRY POPULATION",
+                            "Country");
+                } else {
+                    printPopulationReport(
+                            null, 0,
+                            "COUNTRY POPULATION",
+                            "Country");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to retrieve country population: "
+                            + country, e);
+        }
+    }
+
+    /**
+     * Retrieves the total population of a selected district.
+     *
+     * @param district Selected district.
+     * @param connection Database connection.
+     */
+    public static void getDistrictPopulation(
+            String district, Connection connection) {
+
+        String sql = """
+                SELECT District, SUM(Population) AS TotalPopulation
+                FROM city
+                WHERE District = ?
+                GROUP BY District
+                """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, district);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    printPopulationReport(
+                            rs.getString("District"),
+                            rs.getLong("TotalPopulation"),
+                            "DISTRICT POPULATION",
+                            "District");
+                } else {
+                    printPopulationReport(
+                            null, 0,
+                            "DISTRICT POPULATION",
+                            "District");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to retrieve district population: "
+                            + district, e);
+        }
+    }
+
+    /**
+     * Retrieves the population of a selected city.
+     *
+     * @param city Selected city.
+     * @param connection Database connection.
+     */
+    public static void getCityPopulation(
+            String city, Connection connection) {
+
+        String sql = """
+                SELECT Name, Population
+                FROM city
+                WHERE Name = ?
+                """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, city);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    printPopulationReport(
+                            rs.getString("Name"),
+                            rs.getLong("Population"),
+                            "CITY POPULATION",
+                            "City");
+                } else {
+                    printPopulationReport(
+                            null, 0,
+                            "CITY POPULATION",
+                            "City");
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Failed to retrieve city population: "
+                            + city, e);
         }
     }
 }
