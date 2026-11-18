@@ -10,15 +10,19 @@ public class PopulationBreakdown {
     private final String name;
     private final long totalPopulation;
     private final long urbanPopulation;
-    private final long ruralPopulation;
 
     public PopulationBreakdown(String name,
                                long totalPopulation,
                                long urbanPopulation) {
+
+        if (totalPopulation < 0 || urbanPopulation < 0) {
+            throw new IllegalArgumentException(
+                    "Population cannot be negative");
+        }
+
         this.name = name;
         this.totalPopulation = totalPopulation;
         this.urbanPopulation = urbanPopulation;
-        this.ruralPopulation = totalPopulation - urbanPopulation;
     }
 
     public String getName() {
@@ -33,22 +37,57 @@ public class PopulationBreakdown {
         return urbanPopulation;
     }
 
-    public long getRuralPopulation() {
-        return ruralPopulation;
+    /**
+     * Checks whether the population values are consistent.
+     */
+    public boolean isValid() {
+        return urbanPopulation <= totalPopulation;
     }
 
-    public double getUrbanPercentage() {
-        if (totalPopulation == 0) {
-            return 0;
+    /**
+     * Calculates rural population.
+     * Returns -1 when population data is inconsistent.
+     */
+    public long getRuralPopulation() {
+
+        if (!isValid()) {
+            return -1;
         }
+
+        return totalPopulation - urbanPopulation;
+    }
+
+    /**
+     * Calculates urban population percentage.
+     * Returns NaN when the data is inconsistent.
+     */
+    public double getUrbanPercentage() {
+
+        if (!isValid()) {
+            return Double.NaN;
+        }
+
+        if (totalPopulation == 0) {
+            return 0.0;
+        }
+
         return urbanPopulation * 100.0 / totalPopulation;
     }
 
+    /**
+     * Calculates rural population percentage.
+     * Returns NaN when the data is inconsistent.
+     */
     public double getRuralPercentage() {
-        if (totalPopulation == 0) {
-            return 0;
+
+        if (!isValid()) {
+            return Double.NaN;
         }
 
-        return ruralPopulation * 100.0 / totalPopulation;
+        if (totalPopulation == 0) {
+            return 0.0;
+        }
+
+        return getRuralPopulation() * 100.0 / totalPopulation;
     }
 }
