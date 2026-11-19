@@ -9,7 +9,11 @@ import javax.sql.rowset.RowSetProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Types;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -186,6 +190,35 @@ public class CountryReportsUnitTest {
         assertTrue(output.contains("Report 5: Top 10 Countries by Continent"));
         assertTrue(output.contains("Report 6: Top 10 Countries by Region"));
     }
+    @Test
+    void testCountryReportsLogSqlErrors() throws SQLException {
+        Driver mysqlDriver = DriverManager.getDriver("jdbc:mysql://localhost:33060/world");
+        PrintStream originalErr = System.err;
+        ByteArrayOutputStream errors = new ByteArrayOutputStream();
+
+        DriverManager.deregisterDriver(mysqlDriver);
+        try (PrintStream capturedErr = new PrintStream(errors)) {
+            System.setErr(capturedErr);
+            CountryReports.printAllReports();
+        } finally {
+            System.setErr(originalErr);
+            DriverManager.registerDriver(mysqlDriver);
+        }
+
+        List<String> reportErrors = errors.toString().lines()
+                .filter(line -> line.startsWith("Error retrieving "))
+                .map(line -> line.substring(0, line.indexOf(':')))
+                .toList();
+
+        assertEquals(List.of(
+                "Error retrieving countries",
+                "Error retrieving countries by continent",
+                "Error retrieving countries by region",
+                "Error retrieving top populated countries",
+                "Error retrieving countries by continent",
+                "Error retrieving countries by region"
+        ), reportErrors);
+    }
 
     // Create sample ResultSet data
     private CachedRowSet createResults(boolean addData)
@@ -239,6 +272,9 @@ public class CountryReportsUnitTest {
             System.setOut(originalOut);
         }
 
+
         return output.toString();
     }
+
 }
+

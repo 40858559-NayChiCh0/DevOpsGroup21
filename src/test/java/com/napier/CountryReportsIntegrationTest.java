@@ -125,4 +125,5 @@ class CountryReportsIntegrationTest {
             assertTrue(result.contains("Report " + i));
         }
     }
+
 }
