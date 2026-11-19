@@ -42,11 +42,8 @@ public class CountryReports {
     // Report 1: All countries in the world by population
     public static void getAllCountries() {
 
-        String sql = """
-                SELECT Name, Population
-                FROM country
-                ORDER BY Population DESC
-                """;
+        String sql = "SELECT Name, Population FROM country ORDER BY Population DESC";
+
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement =
@@ -69,12 +66,7 @@ public class CountryReports {
             return;
         }
 
-        String sql = """
-                SELECT Name, Continent, Population
-                FROM country
-                WHERE Continent = ?
-                ORDER BY Population DESC
-                """;
+        String sql = "SELECT Name, Continent, Population FROM country WHERE Continent = ? ORDER BY Population DESC";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement =
@@ -101,12 +93,7 @@ public class CountryReports {
             return;
         }
 
-        String sql = """
-                SELECT Name, Region, Population
-                FROM country
-                WHERE Region = ?
-                ORDER BY Population DESC
-                """;
+        String sql = "SELECT Name, Region, Population FROM country WHERE Region = ? ORDER BY Population DESC";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement =
@@ -133,12 +120,7 @@ public class CountryReports {
             return;
         }
 
-        String sql = """
-                SELECT Code, Name, Population
-                FROM country
-                ORDER BY Population DESC
-                LIMIT ?
-                """;
+        String sql = "SELECT Code, Name, Population FROM country ORDER BY Population DESC LIMIT ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement =
@@ -171,13 +153,7 @@ public class CountryReports {
             return;
         }
 
-        String sql = """
-                SELECT Code, Name, Continent, Population
-                FROM country
-                WHERE Continent = ?
-                ORDER BY Population DESC
-                LIMIT ?
-                """;
+        String sql = "SELECT Code, Name, Continent, Population FROM country WHERE Continent = ? ORDER BY Population DESC LIMIT ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement =
@@ -212,13 +188,7 @@ public class CountryReports {
             return;
         }
 
-        String sql = """
-                SELECT Code, Name, Region, Population
-                FROM country
-                WHERE Region = ?
-                ORDER BY Population DESC
-                LIMIT ?
-                """;
+        String sql = "SELECT Code, Name, Region, Population FROM country WHERE Region = ? ORDER BY Population DESC LIMIT ?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement =
