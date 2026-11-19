@@ -4,7 +4,6 @@ package com.napier;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Tag;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("integration")
-class LookUp_PopulationIntegration_Test {
+class LookUpPopulationIntegrationTest {
 
     private static Connection connection;
 
@@ -40,7 +39,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testWorldPopulation() throws SQLException {
 
-        LookUp_Population.getWorldPopulation(connection);
+        LookUpPopulation.getWorldPopulation(connection);
 
         assertPopulationExists(
                 "SELECT SUM(Population) FROM country");
@@ -50,7 +49,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testContinentPopulation() throws SQLException {
 
-        LookUp_Population.getContinentPopulation(
+        LookUpPopulation.getContinentPopulation(
                 "Asia", connection);
 
         assertPopulationExists(
@@ -61,7 +60,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testRegionPopulation() throws SQLException {
 
-        LookUp_Population.getRegionPopulation(
+        LookUpPopulation.getRegionPopulation(
                 "Southeast Asia", connection);
 
         assertPopulationExists(
@@ -72,7 +71,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testCountryPopulation() throws SQLException {
 
-        LookUp_Population.getCountryPopulation(
+        LookUpPopulation.getCountryPopulation(
                 "Myanmar", connection);
 
         assertPopulationExists(
@@ -83,7 +82,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testDistrictPopulation() throws SQLException {
 
-        LookUp_Population.getDistrictPopulation(
+        LookUpPopulation.getDistrictPopulation(
                 "Mandalay", connection);
 
         assertPopulationExists(
@@ -94,7 +93,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testCityPopulation() throws SQLException {
 
-        LookUp_Population.getCityPopulation(
+        LookUpPopulation.getCityPopulation(
                 "London", connection);
 
         assertPopulationExists(
@@ -109,7 +108,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testInvalidContinentPopulation() {
 
-        LookUp_Population.getContinentPopulation(
+        LookUpPopulation.getContinentPopulation(
                 "InvalidContinent", connection);
     }
 
@@ -117,7 +116,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testInvalidRegionPopulation() {
 
-        LookUp_Population.getRegionPopulation(
+        LookUpPopulation.getRegionPopulation(
                 "InvalidRegion", connection);
     }
 
@@ -125,7 +124,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testInvalidCountryPopulation() {
 
-        LookUp_Population.getCountryPopulation(
+        LookUpPopulation.getCountryPopulation(
                 "InvalidCountry", connection);
     }
 
@@ -133,7 +132,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testInvalidDistrictPopulation() {
 
-        LookUp_Population.getDistrictPopulation(
+        LookUpPopulation.getDistrictPopulation(
                 "InvalidDistrict", connection);
     }
 
@@ -141,7 +140,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testInvalidCityPopulation() {
 
-        LookUp_Population.getCityPopulation(
+        LookUpPopulation.getCityPopulation(
                 "InvalidCity", connection);
     }
 
@@ -153,7 +152,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testPrintPopulationReport() {
 
-        LookUp_Population.printPopulationReport(
+        LookUpPopulation.printPopulationReport(
                 "Myanmar",
                 50000000,
                 "TEST POPULATION",
@@ -164,7 +163,7 @@ class LookUp_PopulationIntegration_Test {
     @Test
     void testPrintPopulationReportWithNullName() {
 
-        LookUp_Population.printPopulationReport(
+        LookUpPopulation.printPopulationReport(
                 null,
                 0,
                 "TEST POPULATION",

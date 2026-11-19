@@ -10,7 +10,7 @@ import java.sql.Connection;
 
     import static org.junit.jupiter.api.Assertions.*;
 
-public class LookUp_PopulationUnitTest {
+public class LookUpPopulationUnitTest {
 
     private static Connection connection;
 
@@ -49,7 +49,7 @@ public class LookUp_PopulationUnitTest {
     void testGetWorldPopulation() {
 
         String output = captureOutput(
-                () -> LookUp_Population.getWorldPopulation(connection)
+                () -> LookUpPopulation.getWorldPopulation(connection)
         );
 
         assertTrue(output.contains("WORLD POPULATION"));
@@ -60,7 +60,7 @@ public class LookUp_PopulationUnitTest {
     void testGetContinentPopulation() {
 
         String output = captureOutput(
-                () -> LookUp_Population.getContinentPopulation(
+                () -> LookUpPopulation.getContinentPopulation(
                         "Asia", connection)
         );
 
@@ -73,7 +73,7 @@ public class LookUp_PopulationUnitTest {
     void testGetRegionPopulation() {
 
         String output = captureOutput(
-                () -> LookUp_Population.getRegionPopulation(
+                () -> LookUpPopulation.getRegionPopulation(
                         "Southeast Asia", connection)
         );
 
@@ -85,7 +85,7 @@ public class LookUp_PopulationUnitTest {
     void testGetCountryPopulation() {
 
         String output = captureOutput(
-                () -> LookUp_Population.getCountryPopulation(
+                () -> LookUpPopulation.getCountryPopulation(
                         "Myanmar", connection)
         );
 
@@ -97,7 +97,7 @@ public class LookUp_PopulationUnitTest {
     void testGetDistrictPopulation() {
 
         String output = captureOutput(
-                () -> LookUp_Population.getDistrictPopulation(
+                () -> LookUpPopulation.getDistrictPopulation(
                         "California", connection)
         );
 
@@ -109,7 +109,7 @@ public class LookUp_PopulationUnitTest {
     void testGetCityPopulation() {
 
         String output = captureOutput(
-                () -> LookUp_Population.getCityPopulation(
+                () -> LookUpPopulation.getCityPopulation(
                         "London", connection)
         );
 
@@ -121,7 +121,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintWithData() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "Myanmar",
                         54000000L,
                         "COUNTRY POPULATION",
@@ -139,7 +139,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintWithNullName() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         null, 0,
                         "COUNTRY POPULATION",
                         "Country"
@@ -154,7 +154,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintWithZeroPopulation() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "Test Country", 0,
                         "COUNTRY POPULATION",
                         "Country"
@@ -170,7 +170,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintWithNullTitle() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "Myanmar", 54000000L,
                         null, "Country"
                 )
@@ -185,7 +185,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintWithNullColumnName() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "Myanmar", 54000000L,
                         "COUNTRY POPULATION", null
                 )
@@ -200,7 +200,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintWorldPopulation() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "World", 8000000000L,
                         "WORLD POPULATION", "World"
                 )
@@ -215,7 +215,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintContinentPopulation() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "Asia", 4600000000L,
                         "CONTINENT POPULATION", "Continent"
                 )
@@ -229,7 +229,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintRegionPopulation() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "Southeast Asia", 680000000L,
                         "REGION POPULATION", "Region"
                 )
@@ -243,7 +243,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintDistrictPopulation() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "California", 39000000L,
                         "DISTRICT POPULATION", "District"
                 )
@@ -257,7 +257,7 @@ public class LookUp_PopulationUnitTest {
     void testPrintCityPopulation() {
 
         String output = captureOutput(() ->
-                LookUp_Population.printPopulationReport(
+                LookUpPopulation.printPopulationReport(
                         "London", 8982000L,
                         "CITY POPULATION", "City"
                 )
@@ -270,11 +270,11 @@ public class LookUp_PopulationUnitTest {
     void testReportsForUnknownLocations() {
         String unknown = "__no_such_location__";
 
-        assertNoPopulationData(() -> LookUp_Population.getContinentPopulation(unknown, connection));
-        assertNoPopulationData(() -> LookUp_Population.getRegionPopulation(unknown, connection));
-        assertNoPopulationData(() -> LookUp_Population.getCountryPopulation(unknown, connection));
-        assertNoPopulationData(() -> LookUp_Population.getDistrictPopulation(unknown, connection));
-        assertNoPopulationData(() -> LookUp_Population.getCityPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUpPopulation.getContinentPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUpPopulation.getRegionPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUpPopulation.getCountryPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUpPopulation.getDistrictPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUpPopulation.getCityPopulation(unknown, connection));
     }
 
     @Test
@@ -282,12 +282,12 @@ public class LookUp_PopulationUnitTest {
         Connection closedConnection = DBConnection.getConnection();
         closedConnection.close();
 
-        assertDatabaseFailure(() -> LookUp_Population.getWorldPopulation(closedConnection));
-        assertDatabaseFailure(() -> LookUp_Population.getContinentPopulation("Asia", closedConnection));
-        assertDatabaseFailure(() -> LookUp_Population.getRegionPopulation("Southeast Asia", closedConnection));
-        assertDatabaseFailure(() -> LookUp_Population.getCountryPopulation("Myanmar", closedConnection));
-        assertDatabaseFailure(() -> LookUp_Population.getDistrictPopulation("California", closedConnection));
-        assertDatabaseFailure(() -> LookUp_Population.getCityPopulation("London", closedConnection));
+        assertDatabaseFailure(() -> LookUpPopulation.getWorldPopulation(closedConnection));
+        assertDatabaseFailure(() -> LookUpPopulation.getContinentPopulation("Asia", closedConnection));
+        assertDatabaseFailure(() -> LookUpPopulation.getRegionPopulation("Southeast Asia", closedConnection));
+        assertDatabaseFailure(() -> LookUpPopulation.getCountryPopulation("Myanmar", closedConnection));
+        assertDatabaseFailure(() -> LookUpPopulation.getDistrictPopulation("California", closedConnection));
+        assertDatabaseFailure(() -> LookUpPopulation.getCityPopulation("London", closedConnection));
     }
 
     private void assertNoPopulationData(Runnable report) {

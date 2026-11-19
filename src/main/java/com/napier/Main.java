@@ -136,21 +136,21 @@ public class Main {
             // Population lookup reports.
             System.out.println("\nREPORT: Population LookUp Reports");
             System.out.println("\n=================================");
-            LookUp_Population.getWorldPopulation(connection);
+            LookUpPopulation.getWorldPopulation(connection);
 
-            LookUp_Population.getContinentPopulation(
+            LookUpPopulation.getContinentPopulation(
                     "Asia", connection);
 
-            LookUp_Population.getRegionPopulation(
+            LookUpPopulation.getRegionPopulation(
                     "Southeast Asia", connection);
 
-            LookUp_Population.getCountryPopulation(
+            LookUpPopulation.getCountryPopulation(
                     "Myanmar", connection);
 
-            LookUp_Population.getDistrictPopulation(
+            LookUpPopulation.getDistrictPopulation(
                     "California", connection);
 
-            LookUp_Population.getCityPopulation(
+            LookUpPopulation.getCityPopulation(
                     "London", connection);
 
 

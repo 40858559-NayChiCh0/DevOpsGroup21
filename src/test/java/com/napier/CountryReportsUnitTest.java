@@ -14,56 +14,53 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CountryReportsUnitTest {
 
+    @FunctionalInterface
+    private interface SqlReport {
+        void execute() throws SQLException;
+    }
+
     // Test 1: Print country report data
     @Test
-    void testPrintWithData() throws Exception {
+    void testPrintWithData() throws SQLException {
 
-        CachedRowSet results = createResults(true);
+        try (CachedRowSet results = createResults(true)) {
 
-        String output = captureOutput(() -> {
-            try {
-                CountryReports.print(results, "Name", "Population");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+            String output = captureOutput(
+                    () -> CountryReports.print(results, "Name", "Population")
+            );
 
-        results.close();
-
-        assertTrue(output.contains("Name"));
-        assertTrue(output.contains("Population"));
-        assertTrue(output.contains("Test Country"));
-        assertTrue(output.contains("1,000,000"));
+            assertTrue(output.contains("Name"));
+            assertTrue(output.contains("Population"));
+            assertTrue(output.contains("Test Country"));
+            assertTrue(output.contains("1,000,000"));
+        }
     }
+
     // Test 2: Print empty results
     @Test
-    void testPrintWithEmptyData() throws Exception {
+    void testPrintWithEmptyData() throws SQLException {
 
-        CachedRowSet results = createResults(false);
+        try (CachedRowSet results = createResults(false)) {
 
-        String output = captureOutput(() -> {
-            try {
-                CountryReports.print(results, "Name", "Population");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+            String output = captureOutput(
+                    () -> CountryReports.print(results, "Name", "Population")
+            );
 
-        results.close();
-
-        assertTrue(output.contains("Name"));
-        assertTrue(output.contains("Population"));
-        assertFalse(output.contains("Test Country"));
+            assertTrue(output.contains("Name"));
+            assertTrue(output.contains("Population"));
+            assertFalse(output.contains("Test Country"));
+        }
     }
 
     // Test 3: Top N with zero
     @Test
-    void testTopNZero() {
+    void testTopNZero() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getTopNPopulatedCountries(0)
@@ -74,7 +71,7 @@ public class CountryReportsUnitTest {
 
     // Test 4: Top N with negative number
     @Test
-    void testTopNNegative() {
+    void testTopNNegative() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getTopNPopulatedCountries(-5)
@@ -85,7 +82,7 @@ public class CountryReportsUnitTest {
 
     // Test 5: Top N by continent with zero
     @Test
-    void testTopNContinentZero() {
+    void testTopNContinentZero() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getTopNPopulatedCountriesByContinent(
@@ -97,7 +94,7 @@ public class CountryReportsUnitTest {
 
     // Test 6: Top N by region with zero
     @Test
-    void testTopNRegionZero() {
+    void testTopNRegionZero() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getTopNPopulatedCountriesByRegion(
@@ -109,7 +106,7 @@ public class CountryReportsUnitTest {
 
     // Test 7: Countries by continent with null
     @Test
-    void testGetCountriesByContinentNull() {
+    void testGetCountriesByContinentNull() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getCountriesByContinent(null)
@@ -120,7 +117,7 @@ public class CountryReportsUnitTest {
 
     // Test 8: Countries by region with null
     @Test
-    void testGetCountriesByRegionNull() {
+    void testGetCountriesByRegionNull() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getCountriesByRegion(null)
@@ -131,7 +128,7 @@ public class CountryReportsUnitTest {
 
     // Test 9: Top N by continent with null
     @Test
-    void testTopNContinentNull() {
+    void testTopNContinentNull() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getTopNPopulatedCountriesByContinent(
@@ -143,7 +140,7 @@ public class CountryReportsUnitTest {
 
     // Test 10: Top N by region with null
     @Test
-    void testTopNRegionNull() {
+    void testTopNRegionNull() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getTopNPopulatedCountriesByRegion(
@@ -155,7 +152,7 @@ public class CountryReportsUnitTest {
 
     // Test 11: Countries by continent with empty string
     @Test
-    void testGetCountriesByContinentEmpty() {
+    void testGetCountriesByContinentEmpty() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getCountriesByContinent("")
@@ -166,7 +163,7 @@ public class CountryReportsUnitTest {
 
     // Test 12: Countries by region with empty string
     @Test
-    void testGetCountriesByRegionEmpty() {
+    void testGetCountriesByRegionEmpty() throws SQLException {
 
         String output = captureOutput(
                 () -> CountryReports.getCountriesByRegion("")
@@ -177,10 +174,10 @@ public class CountryReportsUnitTest {
 
     // Test 13: Print all reports
     @Test
-    void testPrintAllReports() {
+    void testPrintAllReports() throws SQLException {
 
         String output = captureOutput(
-                CountryReports::printAllReports
+                () -> CountryReports.printAllReports()
         );
 
         assertTrue(output.contains("Report 1: All Countries"));
@@ -190,25 +187,37 @@ public class CountryReportsUnitTest {
         assertTrue(output.contains("Report 5: Top 10 Countries by Continent"));
         assertTrue(output.contains("Report 6: Top 10 Countries by Region"));
     }
+
+    // Test 14: Check SQL error logging
     @Test
     void testCountryReportsLogSqlErrors() throws SQLException {
-        Driver mysqlDriver = DriverManager.getDriver("jdbc:mysql://localhost:33060/world");
+
+        Driver mysqlDriver = DriverManager.getDriver(
+                "jdbc:mysql://localhost:33060/world"
+        );
+
         PrintStream originalErr = System.err;
         ByteArrayOutputStream errors = new ByteArrayOutputStream();
 
-        DriverManager.deregisterDriver(mysqlDriver);
-        try (PrintStream capturedErr = new PrintStream(errors)) {
-            System.setErr(capturedErr);
-            CountryReports.printAllReports();
+        try {
+            DriverManager.deregisterDriver(mysqlDriver);
+
+            try (PrintStream capturedErr = new PrintStream(errors)) {
+                System.setErr(capturedErr);
+
+                CountryReports.printAllReports();
+            }
+
         } finally {
             System.setErr(originalErr);
             DriverManager.registerDriver(mysqlDriver);
         }
 
-        List<String> reportErrors = errors.toString().lines()
+        List<String> reportErrors = errors.toString()
+                .lines()
                 .filter(line -> line.startsWith("Error retrieving "))
                 .map(line -> line.substring(0, line.indexOf(':')))
-                .toList();
+                .collect(Collectors.toList());
 
         assertEquals(List.of(
                 "Error retrieving countries",
@@ -222,10 +231,11 @@ public class CountryReportsUnitTest {
 
     // Create sample ResultSet data
     private CachedRowSet createResults(boolean addData)
-            throws Exception {
+            throws SQLException {
 
         CachedRowSet results = RowSetProvider
-                .newFactory().createCachedRowSet();
+                .newFactory()
+                .createCachedRowSet();
 
         RowSetMetaDataImpl metadata = new RowSetMetaDataImpl();
 
@@ -255,8 +265,7 @@ public class CountryReportsUnitTest {
         return results;
     }
 
-    // Capture console output
-    private String captureOutput(Runnable report) {
+    private String captureOutput(SqlReport report) throws SQLException {
 
         PrintStream originalOut = System.out;
         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -265,16 +274,12 @@ public class CountryReportsUnitTest {
 
             System.setOut(testOutput);
 
-            report.run();
+            report.execute();
 
         } finally {
-
             System.setOut(originalOut);
         }
 
-
         return output.toString();
     }
-
 }
-

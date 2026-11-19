@@ -12,14 +12,12 @@ public class CountryReports {
     public static void print(ResultSet results, String... columns)
             throws SQLException {
 
-        // Print column headings
         for (String column : columns) {
             System.out.printf("%-35s", column);
         }
 
         System.out.println();
 
-        // Print report data
         while (results.next()) {
 
             for (String column : columns) {
@@ -31,7 +29,8 @@ public class CountryReports {
                             String.format("%,d",
                                     ((Number) value).longValue()));
                 } else {
-                    System.out.printf("%-35s", value);
+                    System.out.printf("%-35s",
+                            value == null ? "" : value);
                 }
             }
 

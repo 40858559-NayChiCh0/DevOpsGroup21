@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Retrieves and prints population reports.
  */
-public class LookUp_Population {
+public class LookUpPopulation {
 
     /**
      * Common method to print population reports.
