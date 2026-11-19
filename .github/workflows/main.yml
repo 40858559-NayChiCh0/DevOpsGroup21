@@ -165,3 +165,37 @@ jobs:
       - name: Clean Up
         if: always()
         run: docker compose -f docker-compose.yml down -v
+      - name: Upload JAR for release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v7
+        with:
+          name: population-report-jar
+          path: target/devops.jar
+          if-no-files-found: error
+          overwrite: true
+
+  Release:
+    name: GitHub Release
+    needs: Build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download the JAR
+        uses: actions/download-artifact@v8
+        with:
+          name: population-report-jar
+          path: target
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="build-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          gh release create "$tag" target/devops.jar \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Population Report System $tag" \
+            --generate-notes
