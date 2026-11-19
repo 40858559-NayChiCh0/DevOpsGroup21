@@ -57,7 +57,7 @@ jobs:
       - name: Run Unit Tests
         env:
           DB_HOST: localhost
-          DB_PORT: '33060'
+          DB_PORT: '33061'
           DB_NAME: world
           DB_USER: devops
           DB_PASSWORD: devops
@@ -111,7 +111,7 @@ jobs:
       - name: Run Integration Tests
         env:
           DB_HOST: localhost
-          DB_PORT: '33060'
+          DB_PORT: '33061'
           DB_NAME: world
           DB_USER: devops
           DB_PASSWORD: devops
