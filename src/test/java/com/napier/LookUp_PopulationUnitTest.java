@@ -6,8 +6,9 @@ package com.napier;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
+    import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
+    import static org.junit.jupiter.api.Assertions.*;
 
 public class LookUp_PopulationUnitTest {
 
@@ -263,5 +264,40 @@ public class LookUp_PopulationUnitTest {
         );
 
         assertTrue(output.contains("London"));
+    }
+
+    @Test
+    void testReportsForUnknownLocations() {
+        String unknown = "__no_such_location__";
+
+        assertNoPopulationData(() -> LookUp_Population.getContinentPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUp_Population.getRegionPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUp_Population.getCountryPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUp_Population.getDistrictPopulation(unknown, connection));
+        assertNoPopulationData(() -> LookUp_Population.getCityPopulation(unknown, connection));
+    }
+
+    @Test
+    void testReportsWrapSqlExceptions() throws SQLException {
+        Connection closedConnection = DBConnection.getConnection();
+        closedConnection.close();
+
+        assertDatabaseFailure(() -> LookUp_Population.getWorldPopulation(closedConnection));
+        assertDatabaseFailure(() -> LookUp_Population.getContinentPopulation("Asia", closedConnection));
+        assertDatabaseFailure(() -> LookUp_Population.getRegionPopulation("Southeast Asia", closedConnection));
+        assertDatabaseFailure(() -> LookUp_Population.getCountryPopulation("Myanmar", closedConnection));
+        assertDatabaseFailure(() -> LookUp_Population.getDistrictPopulation("California", closedConnection));
+        assertDatabaseFailure(() -> LookUp_Population.getCityPopulation("London", closedConnection));
+    }
+
+    private void assertNoPopulationData(Runnable report) {
+        assertTrue(captureOutput(report).contains("No population data found."));
+    }
+
+    private static void assertDatabaseFailure(Runnable report) {
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class, report::run);
+
+        assertTrue(exception.getCause() instanceof SQLException);
     }
 }
