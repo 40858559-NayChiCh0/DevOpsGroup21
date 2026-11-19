@@ -130,7 +130,7 @@ public class Main {
             System.out.println("=================================");
 
             PopulationReport populationReport = new PopulationReport(connection);
-            populationReport.generateContinentReport();
+            populationReport.generateAllReports();
 
 
             // Population lookup reports.
