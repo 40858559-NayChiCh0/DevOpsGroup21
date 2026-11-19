@@ -32,7 +32,6 @@ class LookUp_PopulationIntegration_Test {
             connection.close();
         }
     }
-
     // ================================================
     // LOOKUP POPULATION INTEGRATION TESTS
     // ================================================
