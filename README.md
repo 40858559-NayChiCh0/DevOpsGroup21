@@ -14,8 +14,7 @@ This is group repository for Group 21.
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40858559-NayChiCh0/DevOpsGroup21/main.yml?branch=develop)
 
 # Codecov
-[![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/master/graph/badge.svg)](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
-
+[![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/develop/graph/badge.svg)](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
 
 ## Team Members
 
