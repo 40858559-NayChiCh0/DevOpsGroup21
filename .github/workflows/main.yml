@@ -63,11 +63,9 @@ jobs:
           DB_PASSWORD: devops
         run: mvn -B -DexcludedGroups=integration test
 
-      # Generate JaCoCo XML report
       - name: Generate JaCoCo Coverage Report
         run: mvn -B jacoco:report
 
-      # Upload Unit Test Coverage
       - name: Upload Unit Test Coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
@@ -134,11 +132,9 @@ jobs:
           DB_PASSWORD: devops
         run: mvn -B -Dgroups=integration test
 
-      # Generate JaCoCo XML report
       - name: Generate JaCoCo Coverage Report
         run: mvn -B jacoco:report
 
-      # Upload Integration Test Coverage
       - name: Upload Integration Test Coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
