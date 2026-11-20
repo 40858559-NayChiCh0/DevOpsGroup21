@@ -15,7 +15,9 @@ on:
 
 jobs:
 
-
+  # ==========================================
+  # JOB 1: UNIT TESTS AND CODECOV
+  # ==========================================
   UnitTests:
     name: Unit Tests
     runs-on: ubuntu-24.04
@@ -33,8 +35,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # Start MySQL because LookUp_PopulationUnitTest
-      # uses DBConnection.getConnection()
       - name: Start MySQL Database
         run: docker compose up -d db
 
@@ -53,7 +53,7 @@ jobs:
           done
           docker compose logs db
           exit 1
-      # Run unit tests with database configuration
+
       - name: Run Unit Tests
         env:
           DB_HOST: localhost
@@ -62,6 +62,20 @@ jobs:
           DB_USER: devops
           DB_PASSWORD: devops
         run: mvn -B -DexcludedGroups=integration test
+
+      # Generate JaCoCo XML report
+      - name: Generate JaCoCo Coverage Report
+        run: mvn -B jacoco:report
+
+      # Upload Unit Test Coverage
+      - name: Upload Unit Test Coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./target/site/jacoco/jacoco.xml
+          flags: unit-tests
+          fail_ci_if_error: true
+          verbose: true
 
       - name: Show MySQL Logs on Failure
         if: failure()
@@ -72,7 +86,9 @@ jobs:
         run: docker compose down
 
 
-
+  # ==========================================
+  # JOB 2: INTEGRATION TESTS AND CODECOV
+  # ==========================================
   IntegrationTests:
     name: Integration Tests
     runs-on: ubuntu-24.04
@@ -108,6 +124,7 @@ jobs:
           done
           docker compose logs db
           exit 1
+
       - name: Run Integration Tests
         env:
           DB_HOST: localhost
@@ -116,6 +133,20 @@ jobs:
           DB_USER: devops
           DB_PASSWORD: devops
         run: mvn -B -Dgroups=integration test
+
+      # Generate JaCoCo XML report
+      - name: Generate JaCoCo Coverage Report
+        run: mvn -B jacoco:report
+
+      # Upload Integration Test Coverage
+      - name: Upload Integration Test Coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./target/site/jacoco/jacoco.xml
+          flags: integration-tests
+          fail_ci_if_error: true
+          verbose: true
 
       - name: Show MySQL Logs on Failure
         if: failure()
@@ -126,7 +157,9 @@ jobs:
         run: docker compose down
 
 
-
+  # ==========================================
+  # JOB 3: BUILD AND RUN DOCKER
+  # ==========================================
   Build:
     name: Build and Start Using docker-compose
     runs-on: ubuntu-24.04
@@ -157,14 +190,17 @@ jobs:
           docker compose -f docker-compose.yml up \
             --build \
             --exit-code-from app
+
       - name: View Container Logs
         if: always()
         run: |
           docker compose -f docker-compose.yml ps -a
           docker compose -f docker-compose.yml logs --no-color app db
+
       - name: Clean Up
         if: always()
         run: docker compose -f docker-compose.yml down -v
+
       - name: Upload JAR for release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v7
@@ -174,11 +210,16 @@ jobs:
           if-no-files-found: error
           overwrite: true
 
+
+  # ==========================================
+  # JOB 4: AUTOMATIC GITHUB RELEASE
+  # ==========================================
   Release:
     name: GitHub Release
     needs: Build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-24.04
+
     permissions:
       contents: write
 
