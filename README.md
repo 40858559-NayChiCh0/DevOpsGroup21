@@ -13,6 +13,10 @@ This is group repository for Group 21.
 # Develop
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/40858559-NayChiCh0/DevOpsGroup21/main.yml?branch=develop)
 
+# Codecov
+[![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/master/graph/badge.svg)](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
+
+
 ## Team Members
 
 | Role | Name |
@@ -116,7 +120,6 @@ Weekly Meeting: Monday, 10:30 AM
 Regular Contribution Score: 16.6 marks
 
 ---
-
 ## Individual Team Members' Contributions
 
 | Matriculation Number | Code Review 1 | Code Review 2 |
