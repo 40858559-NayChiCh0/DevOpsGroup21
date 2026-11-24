@@ -137,19 +137,37 @@ Regular Contribution Score: 16.6 marks
 
 14 requirements of 32 have been implemented, which is 43.75%.
 
-| ID | Name                                                                               | Met |                          Screenshot                          |
-|:---:|:-----------------------------------------------------------------------------------|:---:|:------------------------------------------------------------:|
-| 1 | All the countries in the world organised by largest population to smallest.        | Yes |          ![Country Report](img/country_report1.jpg)          |
-| 2 | All the countries in a continent organised by largest population to smallest.      | Yes |       ![Country by Continent](img/country_report2.jpg)       |
-| 3 | All the countries in a region organised by largest population to smallest.         | Yes |        ![Country by Region](img/country_report3.jpg)         |
-| 4 | All the cities in the world organised by largest population to smallest.           | Yes |            ![City by World](img/city_report1.jpg)            |
-| 5 | All the cities in a continent organised by largest population to smallest.         | Yes |          ![City by continent](img/city_report2.jpg)          |
-| 6 | All the cities in a region organised by largest population to smallest.            | Yes |           ![City by region](img/city_report3.jpg)            |
-| 7 | All the capital cities in the world organised by largest population to smallest.   | Yes |     ![CapitalCity Report](img/capital_city_report1.jpg)      |
-| 8 | All the capital cities in a continent organised by largest population to smallest. | Yes |     ![CapitalCity Report](img/capital_city_report2.jpg)      |
-| 9 | All the capital cities in a region organised by largest to smallest.               | Yes |     ![CapitalCity Report](img/capital_city_report2.jpg)      |
-| 10 | Population living in cities and not living in cities in each continent.            | Yes | ![PopulationBreakdown](img/population_breakdown_report1.jpg) |
-| 11 | Population of the world.                                                           | Yes |    ![Populationworld](img/lookup_population_report1.jpg)     |
-| 12 | Population of a continent.                                                         | Yes |  ![Populationcontinent](img/lookup_population_report2.jpg)   |
-| 13 | Population of a region.                                                            | Yes |    ![PopulationRegion](img/lookup_population_report2.jpg)    |
-| 14 | Language speakers report for Chinese, English, Hindi, Spanish and Arabic.          | Yes |         ![LanguageReport](img/language_report1.jpg)          |
+| ID | Name | Met | Screenshot |
+|:---:|---|:---:|---|
+| 1 | All the countries in the world organised by largest population to smallest. | Yes | ![Country Report 1](img/country_report1.jpg) |
+| 2 | All the countries in a continent organised by largest population to smallest. | Yes | ![Country Report 2](img/country_report2.jpg) |
+| 3 | All the countries in a region organised by largest population to smallest. | Yes | ![Country Report 3](img/country_report3.jpg) |
+| 4 | Top N populated countries in the world. | Yes | ![Top N Countries 1](img/TopNCountries1.jpg) |
+| 5 | Top N populated countries in a continent. | Yes | ![Top N Countries 2](img/TopN_Contries2.jpg) |
+| 6 | Top N populated countries in a region. | Yes | ![Top N Countries 3](img/TopN_Contries3.jpg) |
+| 7 | All the cities in the world organised by largest population to smallest. | Yes | ![City Report 1](img/city_report1.jpg) |
+| 8 | All the cities in a continent organised by largest population to smallest. | Yes | ![City Report 2](img/city_report2.jpg) |
+| 9 | All the cities in a region organised by largest population to smallest. | Yes | ![City Report 3](img/city_report3.jpg) |
+| 10 | All the cities in a country organised by largest population to smallest. | Yes | ![City Report 4](img/Cities_Report4.jpg) |
+| 11 | All the cities in a district organised by largest population to smallest. | Yes | ![City Report 5](img/Cities_Report5.jpg) |
+| 12 | Top N populated cities in the world. | Yes | ![Top N Cities 1](img/TopN_Cities1.jpg) |
+| 13 | Top N populated cities in a continent. | Yes | ![Top N Cities 2](img/TopN_Cities2.jpg) |
+| 14 | Top N populated cities in a region. | Yes | ![Top N Cities 3](img/TopN_Cities3.jpg) |
+| 15 | Top N populated cities in a country. | Yes | ![Top N Cities 4](img/TopN_Cities4.jpg) |
+| 16 | Top N populated cities in a district. | Yes | ![Top N Cities 5](img/TopN_Cities5.jpg) |
+| 17 | All the capital cities in the world organised by largest population to smallest. | Yes | ![Capital City Report 1](img/capital_city_report1.jpg) |
+| 18 | All the capital cities in a continent organised by largest population to smallest. | Yes | ![Capital City Report 2](img/capital_city_report2.jpg) |
+| 19 | All the capital cities in a region organised by largest population to smallest. | Yes | ![Capital City Report 3](img/capital_city_report3.jpg) |
+| 20 | Top N populated capital cities in the world. | Yes | ![Top N Capital Cities 1](img/TopN_Capital_Cities1.jpg) |
+| 21 | Top N populated capital cities in a continent. | Yes | ![Top N Capital Cities 2](img/TopN_Capital_Cities2.jpg) |
+| 22 | Top N populated capital cities in a region. | Yes | ![Top N Capital Cities 3](img/TopN_Capital_Cities3.jpg) |
+| 23 | Population of the world. | Yes | ![Population Report 1](img/lookup_population_report1.jpg) |
+| 24 | Population of a continent. | Yes | ![Population Report 2](img/lookup_population_report2.jpg) |
+| 25 | Population of a region. | Yes | ![Population Report 3](img/lookup_population_report3.jpg) |
+| 26 | Population of a country. | Yes | ![Population Report 4](img/LookUp_Population4.jpg) |
+| 27 | Population of a district. | Yes | ![Population Report 5](img/LookUp_Population5.jpg) |
+| 28 | Population of a city. | Yes | ![Population Report 6](img/LookUp_Population6.jpg) |
+| 29 | Population of people living in cities and not living in cities in each continent. | Yes | ![Population Breakdown](img/population_breakdown_report1.jpg) |
+| 30 | Population of people living in cities and not living in cities in each region. | Yes | ![Population Breakdown by Region](img/population_breakdown_by_region.jpg) |
+| 31 | Population of people living in cities and not living in cities in each country. | Yes | ![Population Breakdown by Country](img/population_breakdown_by_country.jpg) |
+| 32 | Population of people who speak Chinese, English, Hindi, Spanish and Arabic, from greatest to smallest. | Yes | ![Language Report](img/language_report1.jpg) |
