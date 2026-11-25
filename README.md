@@ -135,7 +135,7 @@ Regular Contribution Score: 16.6 marks
 # Population Reporting System
 ## Requirements
 
-14 requirements of 32 have been implemented, which is 43.75%.
+32 requirements of 32 have been implemented, which is 100%.
 
 | ID | Name                                                                                                   | Met | Screenshot                                                                  |
 |:---:|--------------------------------------------------------------------------------------------------------|:---:|-----------------------------------------------------------------------------|
