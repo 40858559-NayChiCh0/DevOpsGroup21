@@ -16,6 +16,9 @@ This is group repository for Group 21.
 # Codecov
 [![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/develop/graph/badge.svg)](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
 
+# Coverage
+[![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/master/graph/badge.svg)](https://app.codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
+
 ## Team Members
 
 | Role | Name |
