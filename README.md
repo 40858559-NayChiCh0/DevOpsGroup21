@@ -144,7 +144,7 @@ Regular Contribution Score: 16.6 marks
 | 3 | All the countries in a region organised by largest population to smallest.                             | Yes | ![Country Report 3](img/country_report3.jpg)                                |
 | 4 | Top N populated countries in the world.                                                                | Yes | ![Top N Countries 1](img/TopNContries1.jpg)                                 |
 | 5 | Top N populated countries in a continent.                                                              | Yes | ![Top N Countries 2](img/TopN_Contries2.jpg)                                |
-| 6 | Top N populated countries in a region.                                                                 | Yes | ![Top N Countries 3](img/TopN_Countries3.jpg)                               |
+| 6 | Top N populated countries in Southeast Asia.                                                           | Yes | ![Top N Countries 3](img/TopN_Countries3.jpg)                               |
 | 7 | All cities in the world by population.                                                                 | Yes | ![City Report 1](img/city_report1.jpg)                                      |
 | 8 | All cities in Asia by population.                                                                      | Yes | ![City Report 2](img/city_report2.jpg)                                      |
 | 9 | All cities in Eastern Asia by population.                                                              | Yes | ![City Report 3](img/city_report3.jpg)                                      |
