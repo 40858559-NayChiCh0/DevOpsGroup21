@@ -17,8 +17,7 @@ This is group repository for Group 21.
 [![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/develop/graph/badge.svg)](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
 
 # Coverage
-[![codecov](https://codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21/branch/develop/graph/badge.svg)](https://app.codecov.io/gh/40858559-NayChiCh0/DevOpsGroup21)
-
+![Codecov (with branch)](https://img.shields.io/codecov/c/github/40858559-NayChiCh0/DevOpsGroup21/develop)
 ## Team Members
 
 | Role | Name |
