@@ -29,7 +29,7 @@ class TopNCityReportsTest {
     @Test
     void testTopNCitiesInWorld() {
         TestDB db = new TestDB(sampleRows(), false);
-        ArrayList<City> cities = reports.getTopNCitiesInWorld(db.connection(), 2);
+        List<City> cities = reports.getTopNCitiesInWorld(db.connection(), 2);
 
         assertCities(cities);
         assertTrue(db.sql.contains("ORDER BY city.Population DESC, city.ID ASC"));
@@ -64,7 +64,7 @@ class TopNCityReportsTest {
     @Test
     void testTopNCitiesByContinent() {
         TestDB db = new TestDB(sampleRows(), false);
-        ArrayList<City> cities = reports.getTopNCitiesByContinent(db.connection(), "Asia", 2);
+        List<City> cities = reports.getTopNCitiesByContinent(db.connection(), "Asia", 2);
 
         assertCities(cities);
         assertTrue(db.sql.contains("WHERE country.Continent = ?"));
@@ -100,7 +100,7 @@ class TopNCityReportsTest {
     @Test
     void testTopNCitiesByRegion() throws SQLException {
         TestDB db = new TestDB(sampleRows(), false);
-        ArrayList<City> cities = reports.getTopNCitiesByRegion(db.connection(), "Southeast Asia", 2);
+        List<City> cities = reports.getTopNCitiesByRegion(db.connection(), "Southeast Asia", 2);
 
         assertCities(cities);
         assertTrue(db.sql.contains("WHERE co.Region = ?"));
@@ -136,7 +136,7 @@ class TopNCityReportsTest {
     @Test
     void testTopNCitiesByCountry() throws SQLException {
         TestDB db = new TestDB(sampleRows(), false);
-        ArrayList<City> cities = reports.getTopNCitiesByCountry(db.connection(), "Myanmar", 2);
+        List<City> cities = reports.getTopNCitiesByCountry(db.connection(), "Myanmar", 2);
 
         assertCities(cities);
         assertTrue(db.sql.contains("WHERE co.Name = ?"));
@@ -172,7 +172,7 @@ class TopNCityReportsTest {
     @Test
     void testTopNCitiesByDistrict() throws SQLException {
         TestDB db = new TestDB(sampleRows(), false);
-        ArrayList<City> cities = reports.getTopNCitiesByDistrict(db.connection(), "Yangon", 2);
+        List<City> cities = reports.getTopNCitiesByDistrict(db.connection(), "Yangon", 2);
 
         assertCities(cities);
         assertTrue(db.sql.contains("WHERE ci.District = ?"));
@@ -204,8 +204,7 @@ class TopNCityReportsTest {
     }
 
     // Helpers
-
-    private static void assertCities(ArrayList<City> cities) {
+    private static void assertCities(List<City> cities) {
         assertEquals(2, cities.size());
         City first = cities.get(0);
         City second = cities.get(1);

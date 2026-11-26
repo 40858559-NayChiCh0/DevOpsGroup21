@@ -148,10 +148,10 @@ public class CityReports {
      * @param continent Name of the selected continent.
      * @return List of cities in the selected continent.
      */
-    public ArrayList<City> getCitiesByContinent(
+    public List<City> getCitiesByContinent(
             Connection connection, String continent) {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         String sql = """
             SELECT city.ID,
@@ -216,10 +216,10 @@ public class CityReports {
      * @param region Selected region.
      * @return List of cities in the selected region.
      */
-    public ArrayList<City> getCitiesByRegion(
+    public List<City> getCitiesByRegion(
             Connection connection, String region) {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         String sql = """
             SELECT city.ID,
@@ -284,8 +284,8 @@ public class CityReports {
      * @param countryName selected country
      * @return List of cities
      */
-    public ArrayList<City> getCitiesByCountry(Connection connection, String countryName) {
-        ArrayList<City> cities = new ArrayList<>();
+    public List<City> getCitiesByCountry(Connection connection, String countryName) {
+        List<City> cities = new ArrayList<>();
         String sql = """
                 SELECT city.ID,
                 city.Name,
@@ -333,10 +333,10 @@ public class CityReports {
      * @param district Selected district.
      * @return List of cities.
      */
-    public ArrayList<City> getCitiesByDistrict(
+    public List<City> getCitiesByDistrict(
             Connection connection, String district) {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         String sql = """
             SELECT city.ID,

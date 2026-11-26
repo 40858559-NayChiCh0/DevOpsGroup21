@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TopNCityReports {
 
@@ -17,10 +18,10 @@ public class TopNCityReports {
      * @param n Number of cities to retrieve.
      * @return List of top N populated cities.
      */
-    public ArrayList<City> getTopNCitiesInWorld(
+    public List<City> getTopNCitiesInWorld(
             Connection connection, int n) {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         if (n <= 0) {
             throw new IllegalArgumentException(
@@ -92,10 +93,10 @@ public class TopNCityReports {
      * @param n Number of cities to retrieve.
      * @return List of top N populated cities in the continent.
      */
-    public ArrayList<City> getTopNCitiesByContinent(
+    public List<City> getTopNCitiesByContinent(
             Connection connection, String continent, int n) {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         if (n <= 0) {
             throw new IllegalArgumentException(
@@ -172,11 +173,11 @@ public class TopNCityReports {
      * @return List of cities ordered by population
      * @throws SQLException If a database error occurs
      */
-    public ArrayList<City> getTopNCitiesByRegion(
+    public List<City> getTopNCitiesByRegion(
             Connection connection, String region, int n)
             throws SQLException {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         // Validate the selected region and number of cities.
         if (region == null || region.trim().isEmpty() || n <= 0) {
@@ -244,11 +245,11 @@ public class TopNCityReports {
      * @return List of the top N populated cities
      * @throws SQLException If a database error occurs
      */
-    public ArrayList<City> getTopNCitiesByCountry(
+    public List<City> getTopNCitiesByCountry(
             Connection connection, String countryName, int n)
             throws SQLException {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         // Validate the country name and N value.
         if (countryName == null || countryName.trim().isEmpty() || n <= 0) {
@@ -321,11 +322,11 @@ public class TopNCityReports {
      * @return List of the top N populated cities
      * @throws SQLException If a database error occurs
      */
-    public ArrayList<City> getTopNCitiesByDistrict(
+    public List<City> getTopNCitiesByDistrict(
             Connection connection, String district, int n)
             throws SQLException {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         // Validate the district and N value.
         if (district == null || district.trim().isEmpty() || n <= 0) {

@@ -46,7 +46,7 @@ class CityReportsTest {
 
     @Test
     void printCityReportTestContainsNull() {
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
         cities.add(null);
 
         String output = captureOutput(() ->
@@ -57,7 +57,7 @@ class CityReportsTest {
 
     @Test
     void printCityReportTestNormal() {
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         cities.add(city(
                 "Yangon", "Yangon", 80000, "Myanmar"));
@@ -81,7 +81,7 @@ class CityReportsTest {
 
     @Test
     void printCityReportTestMixedNullAndNormal() {
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         cities.add(null);
         cities.add(city(
@@ -96,7 +96,7 @@ class CityReportsTest {
 
     @Test
     void printCityReportTestMissingFields() {
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         cities.add(new City());
 
@@ -133,7 +133,7 @@ class CityReportsTest {
         TestDB db =
                 new TestDB(sampleRows(), false);
 
-        ArrayList<City> cities =
+        List<City> cities =
                 cityReports.getCitiesByContinent(
                         db.connection(), "Asia");
 
@@ -148,7 +148,7 @@ class CityReportsTest {
         TestDB db =
                 new TestDB(sampleRows(), false);
 
-        ArrayList<City> cities =
+        List<City> cities =
                 cityReports.getCitiesByRegion(
                         db.connection(), "Southeast Asia");
 
@@ -163,7 +163,7 @@ class CityReportsTest {
         TestDB db =
                 new TestDB(sampleRows(), false);
 
-        ArrayList<City> cities =
+        List<City> cities =
                 cityReports.getCitiesByCountry(
                         db.connection(), "Myanmar");
 
@@ -178,7 +178,7 @@ class CityReportsTest {
         TestDB db =
                 new TestDB(sampleRows(), false);
 
-        ArrayList<City> cities =
+        List<City> cities =
                 cityReports.getCitiesByDistrict(
                         db.connection(), "Yangon");
 
