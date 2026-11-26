@@ -9,7 +9,7 @@ public class LanguageReport {
     // REPORT 1: Language speakers in the world
     public static void getLanguageSpeakers(Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT
                     cl.Language AS Language,
                     ROUND(SUM(c.Population * cl.Percentage / 100)) AS Speakers,

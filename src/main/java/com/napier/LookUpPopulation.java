@@ -47,7 +47,7 @@ public class LookUpPopulation {
      */
     public static void getWorldPopulation(Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT SUM(Population) AS TotalPopulation
                 FROM country
                 """;
@@ -78,7 +78,7 @@ public class LookUpPopulation {
     public static void getContinentPopulation(
             String continent, Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT Continent, SUM(Population) AS TotalPopulation
                 FROM country
                 WHERE Continent = ?
@@ -121,7 +121,7 @@ public class LookUpPopulation {
     public static void getRegionPopulation(
             String region, Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT Region, SUM(Population) AS TotalPopulation
                 FROM country
                 WHERE Region = ?
@@ -164,7 +164,7 @@ public class LookUpPopulation {
     public static void getCountryPopulation(
             String country, Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT Name, Population
                 FROM country
                 WHERE Name = ?
@@ -206,7 +206,7 @@ public class LookUpPopulation {
     public static void getDistrictPopulation(
             String district, Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT District, SUM(Population) AS TotalPopulation
                 FROM city
                 WHERE District = ?
@@ -249,7 +249,7 @@ public class LookUpPopulation {
     public static void getCityPopulation(
             String city, Connection connection) {
 
-        String sql = """
+        final String sql = """
                 SELECT Name, Population
                 FROM city
                 WHERE Name = ?

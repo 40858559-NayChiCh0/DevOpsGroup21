@@ -17,7 +17,7 @@ public class CapitalCityReports {
     // REPORT 1: All capital cities in the world
     public void getAllCapitalCities() throws SQLException {
 
-        String sql =
+       final String sql =
                 "SELECT ci.Name AS Capital, " +
                         "co.Name AS Country, " +
                         "ci.Population " +
@@ -32,7 +32,7 @@ public class CapitalCityReports {
     public void getCapitalCitiesByContinent(String continent)
             throws SQLException {
 
-        String sql =
+        final String sql =
                 "SELECT ci.Name AS Capital, " +
                         "co.Name AS Country, " +
                         "ci.Population " +
@@ -48,7 +48,7 @@ public class CapitalCityReports {
     public void getCapitalCitiesByRegion(String region)
             throws SQLException {
 
-        String sql =
+        final String sql =
                 "SELECT ci.Name AS Capital, " +
                         "co.Name AS Country, " +
                         "ci.Population " +
@@ -64,7 +64,7 @@ public class CapitalCityReports {
     public void getTopNCapitalCities(int n)
             throws SQLException {
 
-        String sql =
+        final String sql =
                 "SELECT ci.Name AS Capital, " +
                         "co.Name AS Country, " +
                         "ci.Population " +
@@ -80,7 +80,7 @@ public class CapitalCityReports {
     public void getTopNCapitalCitiesByContinent(
             String continent, int n) throws SQLException {
 
-        String sql =
+        final String sql =
                 "SELECT ci.Name AS Capital, " +
                         "co.Name AS Country, " +
                         "ci.Population " +
@@ -96,7 +96,7 @@ public class CapitalCityReports {
     public void getTopNCapitalCitiesByRegion(
             String region, int n) throws SQLException {
 
-        String sql =
+        final String sql =
                 "SELECT ci.Name AS Capital, " +
                         "co.Name AS Country, " +
                         "ci.Population " +
