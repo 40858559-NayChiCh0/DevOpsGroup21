@@ -271,7 +271,7 @@ class CapitalCityReportsTest {
                         }
                     });
         }
-
+  
         private ResultSet resultSet() {
             final int[] index = {-1};
             return (ResultSet) Proxy.newProxyInstance(
