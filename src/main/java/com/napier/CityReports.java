@@ -9,6 +9,7 @@ import java.util.List;
 
 public class CityReports {
 
+
     /**
      * Issue 34: All cities in the world
      * Gets all cities in the world ordered by population.
@@ -391,6 +392,9 @@ public class CityReports {
         }
 
         return cities;
+    }
+    public CityReports(){
+        //Default constructor
     }
 
 }

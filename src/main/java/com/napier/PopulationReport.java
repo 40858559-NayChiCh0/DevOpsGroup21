@@ -1,4 +1,3 @@
-
 package com.napier;
 
 import java.sql.Connection;
@@ -31,16 +30,16 @@ public class PopulationReport {
             String groupColumn) throws SQLException {
 
         // Allow only predefined grouping columns.
-        if (!groupColumn.equals("Continent")
-                && !groupColumn.equals("Region")
-                && !groupColumn.equals("Code")) {
+        if (!"Continent".equals(groupColumn)
+                && !"Region".equals(groupColumn)
+                && !"Code".equals(groupColumn)) {
 
             throw new IllegalArgumentException(
                     "Invalid report scope");
         }
 
         // Display country names while grouping by country code.
-        String reportName = groupColumn.equals("Code")
+        String reportName = "Code".equals(groupColumn)
                 ? "c.Name"
                 : "c." + groupColumn;
 
@@ -148,7 +147,20 @@ public class PopulationReport {
 
         for (PopulationBreakdown report : reports) {
 
-            if (!report.isValid()) {
+            if (report.isValid()) {
+
+                // Display valid population data.
+                System.out.printf(
+                        "%-35.35s %,18d %,15d %9.2f%% %,15d %9.2f%%%n",
+                        report.getName(),
+                        report.getTotalPopulation(),
+                        report.getUrbanPopulation(),
+                        report.getUrbanPercentage(),
+                        report.getRuralPopulation(),
+                        report.getRuralPercentage()
+                );
+
+            } else {
 
                 // Display unavailable values for inconsistent data.
                 System.out.printf(
@@ -167,18 +179,6 @@ public class PopulationReport {
                         report.getName(),
                         report.getTotalPopulation(),
                         report.getUrbanPopulation()
-                );
-
-            } else {
-
-                System.out.printf(
-                        "%-35.35s %,18d %,15d %9.2f%% %,15d %9.2f%%%n",
-                        report.getName(),
-                        report.getTotalPopulation(),
-                        report.getUrbanPopulation(),
-                        report.getUrbanPercentage(),
-                        report.getRuralPopulation(),
-                        report.getRuralPercentage()
                 );
             }
         }

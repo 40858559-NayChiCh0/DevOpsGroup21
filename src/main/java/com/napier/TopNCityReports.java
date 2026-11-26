@@ -383,5 +383,8 @@ public class TopNCityReports {
 
         return cities;
     }
+    public TopNCityReports() {
+        // Default constructor
+    }
 
 }

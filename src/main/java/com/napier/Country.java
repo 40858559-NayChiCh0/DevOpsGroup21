@@ -102,4 +102,8 @@ public class Country {
         this.population = population;
     }
 
+    public Country() {
+        // Default constructor
+    }
+
 }

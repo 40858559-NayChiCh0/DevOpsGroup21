@@ -30,6 +30,9 @@ public class City {
      */
     private int population;
 
+    /** Country associated with this city. */
+    private Country country;
+
     /**
      * Gets the city ID.
      *
@@ -118,9 +121,6 @@ public class City {
         this.population = population;
     }
 
-    /** Country associated with this city. */
-    private Country country;
-
     public Country getCountry() {
         return country;
     }
@@ -128,4 +128,9 @@ public class City {
     public void setCountry(Country country) {
         this.country = country;
     }
+
+    public City(){
+        //Default constructor
+    }
+
 }
