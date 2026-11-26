@@ -120,7 +120,7 @@ class CityReportsTest {
         TestDB db =
                 new TestDB(sampleRows(), false);
 
-        ArrayList<City> cities =
+        List<City> cities =
                 cityReports.getAllCities(db.connection());
 
         assertCities(cities);
@@ -246,7 +246,7 @@ class CityReportsTest {
     // HELPER METHODS
     // =========================================
 
-    private static void assertCities(ArrayList<City> cities) {
+    private static void assertCities(List<City> cities) {
         assertEquals(2, cities.size());
 
         assertEquals(1, cities.get(0).getId());

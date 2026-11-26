@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CityReports {
 
@@ -15,9 +16,9 @@ public class CityReports {
      * @param connection Database connection.
      * @return List of cities.
      */
-    public ArrayList<City> getAllCities(Connection connection) {
+    public List<City> getAllCities(Connection connection) {
 
-        ArrayList<City> cities = new ArrayList<>();
+        List<City> cities = new ArrayList<>();
 
         String sql = """
                 SELECT city.ID,
@@ -78,7 +79,7 @@ public class CityReports {
      * @param title Title of the report.
      */
 
-    public void printCityReport(ArrayList<City> cities, String title) {
+    public void printCityReport(List<City> cities, String title) {
 
         System.out.println(
                 "\n========== " + title + " ==========");
