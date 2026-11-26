@@ -18,9 +18,9 @@ public class CityReports {
      */
     public List<City> getAllCities(Connection connection) {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
-        String sql = """
+        final String sql = """
                 SELECT city.ID,
                        city.Name,
                        city.CountryCode,
@@ -39,7 +39,7 @@ public class CityReports {
 
             while (resultSet.next()) {
 
-                City city = new City();
+                final City city = new City();
 
                 city.setId(resultSet.getInt("ID"));
                 city.setName(resultSet.getString("Name"));
@@ -51,7 +51,7 @@ public class CityReports {
                         resultSet.getInt("Population"));
 
                 // Create a Country object
-                Country country = new Country();
+                final Country country = new Country();
 
                 country.setCode(
                         resultSet.getString("CountryCode"));
@@ -151,9 +151,9 @@ public class CityReports {
     public List<City> getCitiesByContinent(
             Connection connection, String continent) {
 
-        List<City> cities = new ArrayList<>();
+       final List<City> cities = new ArrayList<>();
 
-        String sql = """
+        final String sql = """
             SELECT city.ID,
                    city.Name,
                    city.CountryCode,
@@ -176,7 +176,7 @@ public class CityReports {
 
                 while (resultSet.next()) {
 
-                    City city = new City();
+                   final City city = new City();
 
                     city.setId(resultSet.getInt("ID"));
                     city.setName(resultSet.getString("Name"));
@@ -187,7 +187,7 @@ public class CityReports {
                     city.setPopulation(
                             resultSet.getInt("Population"));
 
-                    Country country = new Country();
+                    final Country country = new Country();
 
                     country.setCode(
                             resultSet.getString("CountryCode"));
@@ -219,9 +219,9 @@ public class CityReports {
     public List<City> getCitiesByRegion(
             Connection connection, String region) {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
-        String sql = """
+        final String sql = """
             SELECT city.ID,
                    city.Name,
                    city.CountryCode,
@@ -244,7 +244,7 @@ public class CityReports {
 
                 while (resultSet.next()) {
 
-                    City city = new City();
+                   final City city = new City();
 
                     city.setId(resultSet.getInt("ID"));
                     city.setName(resultSet.getString("Name"));
@@ -255,7 +255,7 @@ public class CityReports {
                     city.setPopulation(
                             resultSet.getInt("Population"));
 
-                    Country country = new Country();
+                    final Country country = new Country();
 
                     country.setCode(
                             resultSet.getString("CountryCode"));
@@ -285,8 +285,8 @@ public class CityReports {
      * @return List of cities
      */
     public List<City> getCitiesByCountry(Connection connection, String countryName) {
-        List<City> cities = new ArrayList<>();
-        String sql = """
+        final List<City> cities = new ArrayList<>();
+        final String sql = """
                 SELECT city.ID,
                 city.Name,
                 city.CountryCode,
@@ -303,14 +303,14 @@ public class CityReports {
             statement.setString(1,countryName);
             try(ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()){
-                    City city = new City();
+                   final City city = new City();
                     city.setId(resultSet.getInt("ID"));
                     city.setName(resultSet.getString("Name"));
                     city.setCountryCode(resultSet.getString("CountryCode"));
                     city.setDistrict(resultSet.getString("District"));
                     city.setPopulation(resultSet.getInt("Population"));
 
-                    Country country = new Country();
+                    final Country country = new Country();
                     country.setCode(resultSet.getString("CountryCode"));
                     country.setName(resultSet.getString("CountryName"));
                     city.setCountry(country);
@@ -336,9 +336,9 @@ public class CityReports {
     public List<City> getCitiesByDistrict(
             Connection connection, String district) {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
-        String sql = """
+        final String sql = """
             SELECT city.ID,
                    city.Name,
                    city.CountryCode,
@@ -361,7 +361,7 @@ public class CityReports {
 
                 while (resultSet.next()) {
 
-                    City city = new City();
+                    final City city = new City();
 
                     city.setId(resultSet.getInt("ID"));
                     city.setName(resultSet.getString("Name"));
@@ -372,7 +372,7 @@ public class CityReports {
                     city.setPopulation(
                             resultSet.getInt("Population"));
 
-                    Country country = new Country();
+                    final Country country = new Country();
 
                     country.setCode(
                             resultSet.getString("CountryCode"));

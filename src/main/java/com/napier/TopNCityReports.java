@@ -21,14 +21,14 @@ public class TopNCityReports {
     public List<City> getTopNCitiesInWorld(
             Connection connection, int n) {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
         if (n <= 0) {
             throw new IllegalArgumentException(
                     "N must be greater than zero.");
         }
 
-        String sql = """
+        final String sql = """
         SELECT city.ID,
                city.Name,
                city.CountryCode,
@@ -51,7 +51,7 @@ public class TopNCityReports {
 
                 while (resultSet.next()) {
 
-                    City city = new City();
+                    final City city = new City();
 
                     city.setId(resultSet.getInt("ID"));
                     city.setName(resultSet.getString("Name"));
@@ -62,7 +62,7 @@ public class TopNCityReports {
                     city.setPopulation(
                             resultSet.getInt("Population"));
 
-                    Country country = new Country();
+                    final Country country = new Country();
 
                     country.setCode(
                             resultSet.getString("CountryCode"));
@@ -96,14 +96,14 @@ public class TopNCityReports {
     public List<City> getTopNCitiesByContinent(
             Connection connection, String continent, int n) {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
         if (n <= 0) {
             throw new IllegalArgumentException(
                     "N must be greater than zero.");
         }
 
-        String sql = """
+        final String sql = """
             SELECT city.ID,
                    city.Name,
                    city.CountryCode,
@@ -128,7 +128,7 @@ public class TopNCityReports {
 
                 while (resultSet.next()) {
 
-                    City city = new City();
+                    final City city = new City();
 
                     city.setId(resultSet.getInt("ID"));
                     city.setName(resultSet.getString("Name"));
@@ -139,7 +139,7 @@ public class TopNCityReports {
                     city.setPopulation(
                             resultSet.getInt("Population"));
 
-                    Country country = new Country();
+                    final Country country = new Country();
 
                     country.setCode(
                             resultSet.getString("CountryCode"));
@@ -177,7 +177,7 @@ public class TopNCityReports {
             Connection connection, String region, int n)
             throws SQLException {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
         // Validate the selected region and number of cities.
         if (region == null || region.trim().isEmpty() || n <= 0) {
@@ -187,7 +187,7 @@ public class TopNCityReports {
 
         // Join city and country to filter by region.
         // Retrieve the country name for displaying the report.
-        String sql =
+        final String sql =
                 "SELECT ci.ID, ci.Name, ci.CountryCode, " +
                         "ci.District, ci.Population, " +
                         "co.Name AS CountryName " +
@@ -210,7 +210,7 @@ public class TopNCityReports {
                 // Convert each result row into a City object.
                 while (rs.next()) {
 
-                    City city = new City();
+                    final City city = new City();
 
                     city.setId(rs.getInt("ID"));
                     city.setName(rs.getString("Name"));
@@ -220,7 +220,7 @@ public class TopNCityReports {
 
                     // Populate the Country object to avoid
                     // NullPointerException when printing the report.
-                    Country country = new Country();
+                    final Country country = new Country();
                     country.setName(rs.getString("CountryName"));
                     city.setCountry(country);
 
@@ -249,7 +249,7 @@ public class TopNCityReports {
             Connection connection, String countryName, int n)
             throws SQLException {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
         // Validate the country name and N value.
         if (countryName == null || countryName.trim().isEmpty() || n <= 0) {
@@ -259,7 +259,7 @@ public class TopNCityReports {
 
         // Retrieve cities belonging to the selected country.
         // Join the country table to obtain the country name.
-        String sql =
+        final String sql =
                 "SELECT ci.ID, ci.Name, ci.CountryCode, " +
                         "ci.District, ci.Population, " +
                         "co.Name AS CountryName " +
@@ -282,7 +282,7 @@ public class TopNCityReports {
                 while (rs.next()) {
 
                     // Create and populate a City object.
-                    City city = new City();
+                    final City city = new City();
 
                     city.setId(rs.getInt("ID"));
                     city.setName(rs.getString("Name"));
@@ -293,7 +293,7 @@ public class TopNCityReports {
                             rs.getInt("Population"));
 
                     // Create the associated Country object.
-                    Country country = new Country();
+                    final Country country = new Country();
                     country.setName(
                             rs.getString("CountryName"));
 
@@ -326,7 +326,7 @@ public class TopNCityReports {
             Connection connection, String district, int n)
             throws SQLException {
 
-        List<City> cities = new ArrayList<>();
+        final List<City> cities = new ArrayList<>();
 
         // Validate the district and N value.
         if (district == null || district.trim().isEmpty() || n <= 0) {
@@ -335,7 +335,7 @@ public class TopNCityReports {
         }
 
         // Join city and country to retrieve the country name.
-        String sql =
+        final String sql =
                 "SELECT ci.ID, ci.Name, ci.CountryCode, " +
                         "ci.District, ci.Population, " +
                         "co.Name AS CountryName " +
@@ -358,7 +358,7 @@ public class TopNCityReports {
                 while (rs.next()) {
 
                     // Create and populate a City object.
-                    City city = new City();
+                    final City city = new City();
 
                     city.setId(rs.getInt("ID"));
                     city.setName(rs.getString("Name"));
@@ -368,7 +368,7 @@ public class TopNCityReports {
                     city.setPopulation(rs.getInt("Population"));
 
                     // Create the associated Country object.
-                    Country country = new Country();
+                    final Country country = new Country();
                     country.setName(rs.getString("CountryName"));
 
                     // Associate the country with the city.
